@@ -14,7 +14,7 @@
         private int altura;
         private boolean visivel = true;
         private final int ALTURA_DA_TELA = 0;
-        private final float VELOCIDADE_DO_INIMIGO = 1;
+        private final float VELOCIDADE_DO_INIMIGO = 5;
         private static int contador = 0;
 
         public NaveInimiga (int posicaoX, int posicaoY) {
@@ -34,9 +34,7 @@
             }
 
             imagem = retornaImagem.getImage();
-            ImageIcon explosao = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
-            imagem2 = explosao.getImage();
-
+           
             this.largura = imagem.getWidth(null);
             this.altura = imagem.getHeight(null);
 
@@ -64,11 +62,6 @@
         public Image getImagem() {
             return imagem;
         }
-
-        public Image getImagem2() {
-        
-            return imagem2;
-        } 
 
         public int getPosicaoX() {
             return posicaoX;

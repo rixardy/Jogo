@@ -36,11 +36,13 @@
             private Thread thread = new Thread(trilha);
             private Trilha trilha2 = new Trilha("Zerou");
             private Thread thread2 = new Thread(trilha2);
-            NaveInimiga explosaoTemporario;
-
+            private List <MoverCenario> moveCenario;
+            
             private int[][] coordenadas = {{55,0},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
                                           {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150}};
 
+            private int[][] coordenadasCenario = {{0,-6300}};
+            
             ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/barril.png"));
             private Image imagemLife = retornaImagem.getImage();
             
@@ -69,14 +71,15 @@
                             break;
                         }
                     }
-
+                    
                     airPlane = new AirPlane();
 
                     jogando = true;
                     
+                    adicionaCenario();
                     adicionaInimigos();
                     
-                    tempo = new Timer(1, this);
+                    tempo = new Timer(1/2, this);
                     tempo.start();
                     
                     thread.start();                
@@ -100,19 +103,35 @@
                 inimigos.add(new NaveInimiga(coordenadas[i][0], coordenadas[i][1]));
             }
             }
+            
+            public void adicionaCenario(){
+
+            moveCenario = new ArrayList<>();
+
+            for(int p = 0;p < coordenadasCenario.length;p++){
+                moveCenario.add(new MoverCenario(coordenadasCenario[p][0], coordenadasCenario[p][1]));
+            }
+            }
 
             @Override
             public void paint(Graphics pinta){
 
                     Graphics2D grafico = (Graphics2D) pinta;
-                    grafico.drawImage(telaDeFundo, 0, -6300, this);
+                                                    
+                    for(int l = 0;l < moveCenario.size(); l++){
 
-                    if(jogando){
+                        MoverCenario moveC = moveCenario.get(l);
+
+                        grafico.drawImage(moveC.getImagem(), moveC.getPosicaoX(), moveC.getPosicaoY(), this);
                         
+                    }
+                    
+                    if(jogando){
+                    
                     grafico.drawImage(airPlane.getImagem(), airPlane.getPosicaoX(), airPlane.getPosicaoY(), this);
 
                     List<Tiro> tiros = airPlane.getTiros();
-
+                    
                     for(int i = 0; i < tiros.size(); i++){
 
                         Tiro tiro = (Tiro)tiros.get(i);
@@ -124,8 +143,7 @@
                         NaveInimiga inimi = inimigos.get(i);
 
                         grafico.drawImage(inimi.getImagem(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
-                        //grafico.drawImage(inimi.getImagem2(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
-
+                        
                     }
                     
                     grafico.setColor(Color.white);
@@ -186,6 +204,17 @@
                             inimigos.remove(i);
                         }
                     }
+                    
+                    for(int m = 0; m < moveCenario.size(); m++){
+
+                        MoverCenario cenarioMove = moveCenario.get(m);
+                    try {
+                        cenarioMove.moverCenario();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    }
 
                     airPlane.moverAirplane();
                     capturarColisoes();
@@ -238,8 +267,6 @@
                             inimigoTemporario.setVisivel(false);
                             tiroTemporario.setVisivel(false);
                             
-                            tiroTemporario.setVisivel(false);
-
                         }
                     }
                     
