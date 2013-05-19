@@ -62,7 +62,7 @@
         public Image getImagem() {
             return imagem;
         }
-
+        
         public int getPosicaoX() {
             return posicaoX;
         }

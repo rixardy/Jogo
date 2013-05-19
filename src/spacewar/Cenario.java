@@ -16,6 +16,7 @@
     import java.net.URL;
     import java.util.ArrayList;
     import java.util.List;
+import java.util.concurrent.PriorityBlockingQueue;
     import java.util.logging.Level;
     import java.util.logging.Logger;
 
@@ -136,6 +137,7 @@
 
                         Tiro tiro = (Tiro)tiros.get(i);
                         grafico.drawImage(tiro.getImagem(), tiro.getPosicaoX(), tiro.getPosicaoY(), this);
+                        
                     }
 
                     for(int i = 0;i < inimigos.size(); i++){
@@ -160,6 +162,7 @@
                         
                         thread.stop();
                         thread2.start();
+                        
                         ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/morreu.png"));
                         grafico.drawImage(creditos.getImage(), 0, 0, this);
                     }
@@ -191,7 +194,7 @@
                             tiros.remove(i);
                         }
                     }
-
+                    
                     for(int i = 0; i < inimigos.size(); i++){
 
                         NaveInimiga naveIn = inimigos.get(i);
@@ -249,7 +252,7 @@
                     }
 
                     }
-
+                
                     List<Tiro> tiros = airPlane.getTiros();
 
                     for(int i = 0;i < tiros.size();i++){
@@ -261,7 +264,7 @@
 
                         NaveInimiga inimigoTemporario = inimigos.get(j);
                         formatoDoInimigo = inimigoTemporario.getBounds();
-
+                        
                         if(formatoDoTiro.intersects(formatoDoInimigo)){
 
                             inimigoTemporario.setVisivel(false);

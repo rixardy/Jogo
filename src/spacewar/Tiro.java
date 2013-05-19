@@ -7,7 +7,7 @@
 
     public class Tiro {
 
-        private Image imagem;
+        private Image imagem,imagem2;
         private int posicaoX;
         private int posicaoY;
         private int largura;
@@ -36,6 +36,9 @@
                     ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/tiro.png"));
                     imagem = retornaImagem.getImage();
                 }
+                
+                ImageIcon retornaImagem2 = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
+                    imagem2 = retornaImagem2.getImage();
                 
                 this.largura = imagem.getWidth(null);
                 this.altura = imagem.getHeight(null);
@@ -87,7 +90,11 @@
         public Image getImagem() {
             return imagem;
         }
-
+        
+        public Image getImagem2() {
+            return imagem2;
+        }
+        
         public int getPosicaoX() {
             return posicaoX;
         }
