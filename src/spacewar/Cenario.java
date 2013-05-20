@@ -16,7 +16,6 @@
     import java.net.URL;
     import java.util.ArrayList;
     import java.util.List;
-import java.util.concurrent.PriorityBlockingQueue;
     import java.util.logging.Level;
     import java.util.logging.Logger;
 
@@ -35,17 +34,19 @@ import java.util.concurrent.PriorityBlockingQueue;
             private int life = 5;
             private Trilha trilha = new Trilha("Batalha");
             private Thread thread = new Thread(trilha);
-            private Trilha trilha2 = new Trilha("Zerou");
+            private Trilha trilha2 = new Trilha("Perdeu");
             private Thread thread2 = new Thread(trilha2);
+            private Trilha trilha3 = new Trilha("Ganhou");
+            private Thread thread3 = new Thread(trilha3);
             private List <MoverCenario> moveCenario;
+            private List <Life> vida;
             
             private int[][] coordenadas = {{55,0},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
                                           {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150}};
 
             private int[][] coordenadasCenario = {{0,-6300}};
             
-            ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/barril.png"));
-            private Image imagemLife = retornaImagem.getImage();
+            private int[][] coordenadasLife = {{490,10},{510,10},{530,10},{550,10},{570,10}};
             
             public Cenario(){
                 
@@ -56,7 +57,7 @@ import java.util.concurrent.PriorityBlockingQueue;
                     addMouseMotionListener(new MoveMouse());
 
                     so = new SistemaOperacional();
-                    URL im = getClass().getResource("/Imagens/fundo.jpg");
+                    URL im = getClass().getResource("/Imagens/torre.jpg");
                     
                     switch (so.identificaSO()) {
                     case "mac":
@@ -79,6 +80,7 @@ import java.util.concurrent.PriorityBlockingQueue;
                     
                     adicionaCenario();
                     adicionaInimigos();
+                    adicionaLife();
                     
                     tempo = new Timer(1/2, this);
                     tempo.start();
@@ -109,25 +111,34 @@ import java.util.concurrent.PriorityBlockingQueue;
 
             moveCenario = new ArrayList<>();
 
-            for(int p = 0;p < coordenadasCenario.length;p++){
-                moveCenario.add(new MoverCenario(coordenadasCenario[p][0], coordenadasCenario[p][1]));
+            for(int i = 0;i < coordenadasCenario.length;i++){
+                moveCenario.add(new MoverCenario(coordenadasCenario[i][0], coordenadasCenario[i][1]));
             }
             }
+            
+            public void adicionaLife(){
 
+            vida = new ArrayList<>();
+
+            for(int i = 0;i < coordenadasLife.length;i++){
+                vida.add(new Life(coordenadasLife[i][0], coordenadasLife[i][1]));
+            }
+            }
+            
             @Override
             public void paint(Graphics pinta){
 
                     Graphics2D grafico = (Graphics2D) pinta;
                                                     
+                    if(jogando){
+                        
                     for(int l = 0;l < moveCenario.size(); l++){
 
-                        MoverCenario moveC = moveCenario.get(l);
+                    MoverCenario moveC = moveCenario.get(l);
 
-                        grafico.drawImage(moveC.getImagem(), moveC.getPosicaoX(), moveC.getPosicaoY(), this);
+                    grafico.drawImage(moveC.getImagem(), moveC.getPosicaoX(), moveC.getPosicaoY(), this);
                         
                     }
-                    
-                    if(jogando){
                     
                     grafico.drawImage(airPlane.getImagem(), airPlane.getPosicaoX(), airPlane.getPosicaoY(), this);
 
@@ -146,25 +157,44 @@ import java.util.concurrent.PriorityBlockingQueue;
 
                         grafico.drawImage(inimi.getImagem(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
                         
+                        if(inimi.isVisivel() == false){
+                            
+                            grafico.drawImage(inimi.getImagem2(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
+                           
+                        }
+                        
+                    }
+                    
+                    for(int m = 0;m < vida.size(); m++){
+
+                    Life vidaL = vida.get(m);
+
+                    grafico.drawImage(vidaL.getImagemLife(), vidaL.getPosicaoX(), vidaL.getPosicaoY(), this);
+                        
                     }
                     
                     grafico.setColor(Color.white);
                     grafico.setFont(new Font("Arial", Font.BOLD, 20));
-                    grafico.drawString("INIMIGOS: "+inimigos.size(), 468, 20);
-                    
-                    grafico.setColor(Color.white);
-                    grafico.setFont(new Font("Arial", Font.BOLD, 20));
-                    grafico.drawString("LIFE: "+life, 518, 45);
+                    grafico.drawString("INIMIGOS: "+inimigos.size(), 468, 620);
                     
                     dormir(5);
                     
-                    }else{
+                    }else if(vida.isEmpty()){
                         
                         thread.stop();
                         thread2.start();
                         
                         ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/morreu.png"));
                         grafico.drawImage(creditos.getImage(), 0, 0, this);
+                    
+                    }else if(inimigos.isEmpty()){
+                        
+                        thread.stop();
+                        thread3.start();
+                        
+                        ImageIcon creditos2 = new ImageIcon(getClass().getResource("/Imagens/vencedor.png"));
+                        grafico.drawImage(creditos2.getImage(), 0, 0, this);
+                        
                     }
 
                 pinta.dispose();
@@ -174,7 +204,7 @@ import java.util.concurrent.PriorityBlockingQueue;
             @Override
             public void actionPerformed(ActionEvent arg0) {
 
-                if(inimigos.isEmpty()){
+                if(inimigos.isEmpty() || vida.isEmpty()){
 
                     jogando = false;
 
@@ -207,7 +237,7 @@ import java.util.concurrent.PriorityBlockingQueue;
                             inimigos.remove(i);
                         }
                     }
-                    
+
                     for(int m = 0; m < moveCenario.size(); m++){
 
                         MoverCenario cenarioMove = moveCenario.get(m);
@@ -237,12 +267,11 @@ import java.util.concurrent.PriorityBlockingQueue;
                     formatoDoInimigo = inimigoTemporario.getBounds();
 
                     if(formatoDaNave.intersects(formatoDoInimigo)){
-
-                        life -= 1;
                         
+                        vida.remove(0);
                         inimigoTemporario.setVisivel(false);
                         
-                        if(life == 0){
+                        if(vida.isEmpty()){
                             
                         airPlane.setVisivel(false);
                         

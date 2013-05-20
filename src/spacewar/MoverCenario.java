@@ -41,12 +41,8 @@
             Thread.sleep(10);
         }
 
-        public void visivel(){
+        private void visivel(){
             visivel = true;
-        }
-
-        public void invisivel(){
-            visivel = false;
         }
 
         public Image getImagem() {
@@ -59,14 +55,6 @@
 
         public int getPosicaoY() {
             return posicaoY;
-        }
-
-        public boolean isVisivel() {
-            return visivel;
-        }    
-
-        public void setVisivel(boolean visivel) {
-            this.visivel = visivel;
         }
 
     }

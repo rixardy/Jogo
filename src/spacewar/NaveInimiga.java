@@ -16,13 +16,15 @@
         private final int ALTURA_DA_TELA = 0;
         private final float VELOCIDADE_DO_INIMIGO = 5;
         private static int contador = 0;
-
+        private ImageIcon retornaImagem;
+        private ImageIcon retornaImagem2;
+            
         public NaveInimiga (int posicaoX, int posicaoY) {
 
             this.posicaoX = posicaoX;
             this.posicaoY = posicaoY;
 
-            ImageIcon retornaImagem;
+            
             if(contador++ % 3 == 0){
             
                 retornaImagem = new ImageIcon(getClass().getResource("/Imagens/naveInimiga.png"));
@@ -33,7 +35,10 @@
                 
             }
 
+            retornaImagem2 = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
+            
             imagem = retornaImagem.getImage();
+            imagem2 = retornaImagem2.getImage();
            
             this.largura = imagem.getWidth(null);
             this.altura = imagem.getHeight(null);
@@ -61,6 +66,10 @@
 
         public Image getImagem() {
             return imagem;
+        }
+
+        public Image getImagem2() {
+        return imagem2;
         }
         
         public int getPosicaoX() {

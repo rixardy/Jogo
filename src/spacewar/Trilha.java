@@ -16,9 +16,11 @@ public class Trilha implements Runnable{
             this.som = "Batalha";
         }else if(som.equals("Introducao")){
             this.som = "Introducao";
-        }else if(som.equals("Zerou")){
-            this.som = "Zerou";
-        }
+        }else if(som.equals("Perdeu")){
+            this.som = "Perdeu";
+        }else if(som.equals("Ganhou")){
+            this.som = "Ganhou";
+    }
     }
     
     @Override
@@ -54,7 +56,20 @@ public class Trilha implements Runnable{
                     p2.play();
             }catch (FileNotFoundException | JavaLayerException e){
                 }
-            }else if(this.som.equals("Zerou")){
+            }else if(this.som.equals("Perdeu")){
+               
+                InputStream in;
+                
+                try {
+                    
+                    in = new FileInputStream("src\\Imagens\\perdeu.mp3");
+                    
+                    Player p3 = new Player(in);
+                    
+                    p3.play();
+            }catch (FileNotFoundException | JavaLayerException e){
+            }       
+            }else if(this.som.equals("Ganhou")){
                
                 InputStream in;
                 
@@ -62,9 +77,9 @@ public class Trilha implements Runnable{
                     
                     in = new FileInputStream("src\\Imagens\\ganhou.mp3");
                     
-                    Player p3 = new Player(in);
+                    Player p4 = new Player(in);
                     
-                    p3.play();
+                    p4.play();
             }catch (FileNotFoundException | JavaLayerException e){
                 }
             i++;

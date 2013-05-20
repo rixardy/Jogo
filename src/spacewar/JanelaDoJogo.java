@@ -29,16 +29,16 @@
                     final JLabel label = new JLabel(imageI);
                     label.setBounds(0, 0, 600, 700);
 
-                    ImageIcon i = new ImageIcon(getClass().getResource("/Imagens/start.png"));
+                    ImageIcon start = new ImageIcon(getClass().getResource("/Imagens/start.png"));
 
                     final JPanel painel = new JPanel();
 
                     add(painel);
                     painel.add(label);
 
-                    JButton botao = new JButton("",i);
-                    botao.setRolloverIcon(i);
-                    botao.setPressedIcon(i);
+                    JButton botao = new JButton("",start);
+                    botao.setRolloverIcon(start);
+                    botao.setPressedIcon(start);
                     botao.setBorderPainted(false);
                     botao.setContentAreaFilled(false);
                     botao.setFocusPainted(false);
@@ -66,8 +66,8 @@
                             painel.setVisible(false);
                         }
                     });
-
-            }
+                    
+                        }
 
             public static void main(String[] args) {
                 
