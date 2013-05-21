@@ -72,7 +72,7 @@
             public static void main(String[] args) {
                 
                     JanelaDoJogo janelaDoJogo = new JanelaDoJogo();
-            
+
                     thread.start();
 
             }

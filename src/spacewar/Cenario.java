@@ -23,7 +23,7 @@
     import javax.swing.JPanel;
     import javax.swing.Timer;
 
-    public class Cenario extends JPanel implements ActionListener {
+    public final class Cenario extends JPanel implements ActionListener {
 
             private Image telaDeFundo;
             private AirPlane airPlane;
@@ -82,7 +82,7 @@
                     adicionaInimigos();
                     adicionaLife();
                     
-                    tempo = new Timer(1/2, this);
+                    tempo = new Timer(1, this);
                     tempo.start();
                     
                     thread.start();                
@@ -174,8 +174,8 @@
                     }
                     
                     grafico.setColor(Color.white);
-                    grafico.setFont(new Font("Arial", Font.BOLD, 20));
-                    grafico.drawString("INIMIGOS: "+inimigos.size(), 468, 620);
+                    grafico.setFont(new Font("Arial", Font.BOLD, 15));
+                    grafico.drawString("INIMIGOS: "+inimigos.size(), 490, 665);
                     
                     dormir(5);
                     

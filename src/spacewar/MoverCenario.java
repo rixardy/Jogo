@@ -19,11 +19,11 @@
             this.posicaoX = posicaoX;
             this.posicaoY = posicaoY;
 
-            ImageIcon retornaCenario;     
+            ImageIcon retornaCenario;
                 
             retornaCenario = new ImageIcon(getClass().getResource("/Imagens/torre.jpg"));
             imagemCenario = retornaCenario.getImage();
-
+            
             this.largura = imagemCenario.getWidth(null);
             this.altura = imagemCenario.getHeight(null);
 

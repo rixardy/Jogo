@@ -1,8 +1,8 @@
 package spacewar;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -28,62 +28,73 @@ public class Trilha implements Runnable{
         
         int i = 0;
         
-        while(i < 10){
+        while(i < 5){
             
             if (this.som.equals("Batalha")){
                 
                 InputStream in;
                 
+                    in = getClass().getClassLoader().getResourceAsStream("Imagens/Batalha.mp3"); 
+                    
+                    Player p;
                 try {
                     
-                    in = new FileInputStream("src\\Imagens\\Batalha.mp3");
-                    
-                    Player p = new Player(in);
-                    
+                    p = new Player(in);
                     p.play();
-                }catch (FileNotFoundException | JavaLayerException e){
+                    
+                } catch (JavaLayerException ex) {
+                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
                 }
+             
             }else if(this.som.equals("Introducao")){
-               
+                
                 InputStream in;
                 
+                    in = getClass().getClassLoader().getResourceAsStream("Imagens/inicio.mp3"); 
+                    
+                    Player p;
                 try {
                     
-                    in = new FileInputStream("src\\Imagens\\inicio2.mp3");
+                    p = new Player(in);
+                    p.play();
                     
-                    Player p2 = new Player(in);
-                    
-                    p2.play();
-            }catch (FileNotFoundException | JavaLayerException e){
+                } catch (JavaLayerException ex) {
+                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
                 }
+             
             }else if(this.som.equals("Perdeu")){
-               
+                
                 InputStream in;
                 
+                    in = getClass().getClassLoader().getResourceAsStream("Imagens/perdeu.mp3"); 
+                    
+                    Player p;
                 try {
                     
-                    in = new FileInputStream("src\\Imagens\\perdeu.mp3");
+                    p = new Player(in);
+                    p.play();
                     
-                    Player p3 = new Player(in);
-                    
-                    p3.play();
-            }catch (FileNotFoundException | JavaLayerException e){
-            }       
-            }else if(this.som.equals("Ganhou")){
-               
-                InputStream in;
-                
-                try {
-                    
-                    in = new FileInputStream("src\\Imagens\\ganhou.mp3");
-                    
-                    Player p4 = new Player(in);
-                    
-                    p4.play();
-            }catch (FileNotFoundException | JavaLayerException e){
+                } catch (JavaLayerException ex) {
+                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            i++;
-        }
+             
+            }else if(this.som.equals("Ganhou")){
+                
+                InputStream in;
+                
+                    in = getClass().getClassLoader().getResourceAsStream("Imagens/ganhou.mp3"); 
+                    
+                    Player p;
+                try {
+                    
+                    p = new Player(in);
+                    p.play();
+                    
+                } catch (JavaLayerException ex) {
+                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
+                }
+             i++;
+            }
     }
     
 }}
