@@ -1,48 +1,27 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package testea;
+package SpaceWar;
 
-import java.awt.Image;
+    import java.awt.Image;
     import java.awt.Rectangle;
-    import java.net.URL;
     import javax.swing.ImageIcon;
 
-    public class Tiro2 {
+    public class Tiro {
 
-        private Image imagem,imagem2;
+        private Image imagem;
         private int posicaoX;
         private int posicaoY;
         private int largura;
         private int altura;
         private boolean visivel = true;
         private final int ALTURA_DA_TELA = 700;
-        private final int VELOCIDADE_DO_TIRO = 4;
-        private SistemaOperacional so;
+        private final int VELOCIDADE_DO_TIRO = 5;
         
-        public Tiro2(int posicaoX, int posicaoY) {
+        public Tiro(int posicaoX, int posicaoY) {
 
             this.posicaoX = posicaoX - 35;
             this.posicaoY = posicaoY - 50;
             
-                so = new SistemaOperacional();
-                URL im = getClass().getResource("/Imagens/tiro.png");
-
-                if(so.identificaSO().equals("mac")){
-                    
-                    ImageIcon retornaImagem = new ImageIcon(im);
-                    imagem = retornaImagem.getImage();
-                }
-                
-                else if(so.identificaSO().equals("win")){
-                    
-                    ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/tiro.png"));
-                    imagem = retornaImagem.getImage();
-                }
-                
-                ImageIcon retornaImagem2 = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
-                    imagem2 = retornaImagem2.getImage();
+                ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/tiro.png"));
+                imagem = retornaImagem.getImage();
                 
                 this.largura = imagem.getWidth(null);
                 this.altura = imagem.getHeight(null);
@@ -93,10 +72,6 @@ import java.awt.Image;
 
         public Image getImagem() {
             return imagem;
-        }
-        
-        public Image getImagem2() {
-            return imagem2;
         }
         
         public int getPosicaoX() {

@@ -1,4 +1,4 @@
-package testea;
+package SpaceWar;
 
 public class SistemaOperacional {
     private String os;

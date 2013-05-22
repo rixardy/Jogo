@@ -1,6 +1,6 @@
-package testea;
+package SpaceWar;
 
-import java.awt.Color;
+    import java.awt.Color;
     import java.awt.Font;
     import java.awt.Graphics;
     import java.awt.Graphics2D;
@@ -23,13 +23,12 @@ import java.awt.Color;
     import javax.swing.JPanel;
     import javax.swing.Timer;
 
-    public class Cenario extends JPanel implements ActionListener {
+    public final class CenarioDificil extends JPanel implements ActionListener {
 
-            private Image telaDeFundo;
-            private AirPlane airPlane;
+            private SpaceWar airPlane;
             private Timer tempo;
             private boolean jogando;
-            private List<NaveInimiga> inimigos ;
+            private List<NaveInimigaDificil> inimigos ;
             private SistemaOperacional so;
             private int life = 5;
             private Trilha trilha = new Trilha("Batalha");
@@ -40,41 +39,23 @@ import java.awt.Color;
             private Thread thread3 = new Thread(trilha3);
             private List <MoverCenario> moveCenario;
             private List <Life> vida;
-
+         
             private int[][] coordenadas = {{55,0},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
                                           {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150}};
-            
+
             private int[][] coordenadasCenario = {{0,-6300}};
             
-            private int[][] coordenadasLife = {{490,10},{510,10},{530,10},{550,10},{570,10}};
+            private int[][] coordenadasLife = {{690,10},{710,10},{730,10},{750,10},{770,10}};
             
-            public Cenario(){
-                
+            public CenarioDificil(){
+
                     setFocusable(true);
                     setDoubleBuffered(true);
                     addKeyListener(new PegaEvento());
                     addMouseListener(new PegaMouse());
                     addMouseMotionListener(new MoveMouse());
 
-                    so = new SistemaOperacional();
-                    URL im = getClass().getResource("/Imagens/torre.jpg");
-                    
-                    switch (so.identificaSO()) {
-                    case "mac":
-                        {
-                            ImageIcon retornaImagem = new ImageIcon(im);
-                            telaDeFundo = retornaImagem.getImage();
-                            break;
-                        }
-                    case "win":
-                        {
-                            ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/torre.jpg"));
-                            telaDeFundo = retornaImagem.getImage();
-                            break;
-                        }
-                    }
-                    
-                    airPlane = new AirPlane();
+                    airPlane = new SpaceWar();
 
                     jogando = true;
                     
@@ -94,7 +75,7 @@ import java.awt.Color;
                 try {
             Thread.sleep(tempo);
             } catch (InterruptedException ex) {
-            Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CenarioDificil.class.getName()).log(Level.SEVERE, null, ex);
             }
             }
 
@@ -103,7 +84,7 @@ import java.awt.Color;
             inimigos = new ArrayList<>();
 
             for(int i = 0;i < coordenadas.length;i++){
-                inimigos.add(new NaveInimiga(coordenadas[i][0], coordenadas[i][1]));
+                inimigos.add(new NaveInimigaDificil(coordenadas[i][0], coordenadas[i][1]));
             }
             }
             
@@ -129,6 +110,9 @@ import java.awt.Color;
             public void paint(Graphics pinta){
 
                     Graphics2D grafico = (Graphics2D) pinta;
+                    
+                    ImageIcon cenarioLateral = new ImageIcon(getClass().getResource("/Imagens/telapreta.png"));
+                    grafico.drawImage(cenarioLateral.getImage(), 600, 0, this);
                                                     
                     if(jogando){
                         
@@ -142,18 +126,18 @@ import java.awt.Color;
                     
                     grafico.drawImage(airPlane.getImagem(), airPlane.getPosicaoX(), airPlane.getPosicaoY(), this);
 
-                    List<Tiro2> tiros = airPlane.getTiros();
+                    List<Tiro> tiros = airPlane.getTiros();
                     
                     for(int i = 0; i < tiros.size(); i++){
 
-                        Tiro2 tiro = (Tiro2)tiros.get(i);
+                        Tiro tiro = (Tiro)tiros.get(i);
                         grafico.drawImage(tiro.getImagem(), tiro.getPosicaoX(), tiro.getPosicaoY(), this);
                         
                     }
 
                     for(int i = 0;i < inimigos.size(); i++){
 
-                        NaveInimiga inimi = inimigos.get(i);
+                        NaveInimigaDificil inimi = inimigos.get(i);
 
                         grafico.drawImage(inimi.getImagem(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
                         
@@ -177,7 +161,7 @@ import java.awt.Color;
                     grafico.setFont(new Font("Arial", Font.BOLD, 15));
                     grafico.drawString("INIMIGOS: "+inimigos.size(), 490, 665);
                     
-                    dormir(5);
+                    //dormir(5);
                     
                     }else if(vida.isEmpty()){
                         
@@ -210,11 +194,11 @@ import java.awt.Color;
 
                 }
 
-                    List<Tiro2> tiros = airPlane.getTiros();
+                    List<Tiro> tiros = airPlane.getTiros();
 
                     for(int i = 0; i < tiros.size(); i++){
 
-                        Tiro2 tiro = (Tiro2)tiros.get(i);
+                        Tiro tiro = (Tiro)tiros.get(i);
 
                         if(tiro.isVisivel()){
                             tiro.moverTiro();
@@ -227,7 +211,7 @@ import java.awt.Color;
                     
                     for(int i = 0; i < inimigos.size(); i++){
 
-                        NaveInimiga naveIn = inimigos.get(i);
+                        NaveInimigaDificil naveIn = inimigos.get(i);
 
                         if(naveIn.isVisivel()){
                             naveIn.moverInimigo();
@@ -244,7 +228,7 @@ import java.awt.Color;
                     try {
                         cenarioMove.moverCenario();
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CenarioDificil.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     }
@@ -263,7 +247,7 @@ import java.awt.Color;
 
                 for(int i = 0;i < inimigos.size();i++){
 
-                    NaveInimiga inimigoTemporario = inimigos.get(i);
+                    NaveInimigaDificil inimigoTemporario = inimigos.get(i);
                     formatoDoInimigo = inimigoTemporario.getBounds();
 
                     if(formatoDaNave.intersects(formatoDoInimigo)){
@@ -282,16 +266,16 @@ import java.awt.Color;
 
                     }
                 
-                    List<Tiro2> tiros = airPlane.getTiros();
+                    List<Tiro> tiros = airPlane.getTiros();
 
                     for(int i = 0;i < tiros.size();i++){
 
-                        Tiro2 tiroTemporario = tiros.get(i);
+                        Tiro tiroTemporario = tiros.get(i);
                         formatoDoTiro = tiroTemporario.getBounds();
 
                     for(int j = 0; j < inimigos.size();j++){
 
-                        NaveInimiga inimigoTemporario = inimigos.get(j);
+                        NaveInimigaDificil inimigoTemporario = inimigos.get(j);
                         formatoDoInimigo = inimigoTemporario.getBounds();
                         
                         if(formatoDoTiro.intersects(formatoDoInimigo)){

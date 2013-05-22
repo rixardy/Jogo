@@ -1,4 +1,4 @@
-package testea;
+package SpaceWar;
 
     import java.awt.Image;
     import java.awt.Rectangle;
@@ -10,7 +10,7 @@ package testea;
     import javax.swing.ImageIcon;
 
     
-           public class AirPlane {
+           public class SpaceWar {
 
             private int posicaoX;
             private int posicaoY;
@@ -19,11 +19,11 @@ package testea;
             private int altura;
             private int largura;
             private Image imagem;
-            private List<Tiro2> tiros;
+            private List<Tiro> tiros;
             private boolean visivel;
             private SistemaOperacional so;
             
-            public AirPlane(){
+            public SpaceWar(){
                 
                 so = new SistemaOperacional();
                 URL im = getClass().getResource("/Imagens/nave.png");
@@ -55,7 +55,7 @@ package testea;
 
             public void atirar(){
 
-                this.tiros.add(new Tiro2(posicaoX+largura, posicaoY+altura));
+                this.tiros.add(new Tiro(posicaoX+largura, posicaoY+altura));
 
             }
 
@@ -72,14 +72,14 @@ package testea;
                     if(this.posicaoX < 1){
                         posicaoX = 1;
                     }
-                    if(this.posicaoX > 545){
-                        posicaoX = 545;
+                    if(this.posicaoX > 549){
+                        posicaoX = 549;
                     }
                     if(this.posicaoY < 0){
                         posicaoY = 0;
                     }
-                    if(this.posicaoY > 628){
-                        posicaoY = 628;
+                    if(this.posicaoY > 620){
+                        posicaoY = 620;
                     }
 
             }
@@ -95,24 +95,24 @@ package testea;
                     
                     if(tecla == KeyEvent.VK_UP){
 
-                            moveY = -1;
+                            moveY = -2;
                     }
 
                     if(tecla == KeyEvent.VK_DOWN){
 
-                            moveY = 1;
+                            moveY = 2;
 
                     }
 
                     if(tecla == KeyEvent.VK_LEFT){
 
-                            moveX = -1;
+                            moveX = -2;
 
                     }
 
                     if(tecla == KeyEvent.VK_RIGHT){
 
-                            moveX = 1;
+                            moveX = 2;
 
                     }
 
@@ -121,6 +121,12 @@ package testea;
             public void keyReleased(KeyEvent teclado) {
 
             int tecla = teclado.getKeyCode();
+            
+                    if(tecla == KeyEvent.VK_SPACE){
+                        
+                           
+                        
+                    }
 
                     if(tecla == KeyEvent.VK_UP){
 
@@ -180,7 +186,7 @@ package testea;
                     return imagem;
             }
 
-            public List<Tiro2> getTiros() {
+            public List<Tiro> getTiros() {
             return tiros;
             }
 

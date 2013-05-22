@@ -1,4 +1,4 @@
-package testea;
+package SpaceWar;
 
 import java.io.InputStream;
 import java.util.logging.Level;
