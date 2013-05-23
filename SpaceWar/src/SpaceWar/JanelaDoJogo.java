@@ -16,6 +16,7 @@ package SpaceWar;
         
         private static Trilha trilha = new Trilha("Introducao");
         private static Thread thread = new Thread(trilha);
+        private Thread cenario;
 
             public JanelaDoJogo(){
 
@@ -32,7 +33,7 @@ package SpaceWar;
                     add(painel);
                     painel.add(label);
                     
-                    ImageIcon start = new ImageIcon(getClass().getResource("/Imagens/start.png"));
+                    ImageIcon start = new ImageIcon(getClass().getResource("/Imagens/normal.png"));
                     JButton botaoNormal = new JButton("",start);
                     botaoNormal.setRolloverIcon(start);
                     botaoNormal.setPressedIcon(start);
@@ -43,14 +44,14 @@ package SpaceWar;
                     botaoNormal.setVisible(true);
                     label.add(botaoNormal);
                     
-                    ImageIcon dificil = new ImageIcon(getClass().getResource("/Imagens/start.png"));
+                    ImageIcon dificil = new ImageIcon(getClass().getResource("/Imagens/dificil.png"));
                     JButton botaoDificil = new JButton("",dificil);
                     botaoDificil.setRolloverIcon(dificil);
                     botaoDificil.setPressedIcon(dificil);
                     botaoDificil.setBorderPainted(false);
                     botaoDificil.setContentAreaFilled(false);
                     botaoDificil.setFocusPainted(false);
-                    botaoDificil.setBounds(500, 560, 80, 80);
+                    botaoDificil.setBounds(490, 560, 80, 80);
                     botaoDificil.setVisible(true);
                     label.add(botaoDificil);
                     
@@ -63,7 +64,9 @@ package SpaceWar;
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                            add(new Cenario());
+                            Thread cenario = new Thread((Runnable) add(new CenarioNormal()));
+                            cenario.start();
+                            
                             setSize(800, 700);
                             
                             Image cursorImage = Toolkit.getDefaultToolkit().getImage("");
@@ -81,7 +84,9 @@ package SpaceWar;
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                            add(new CenarioDificil());
+                            cenario = new Thread((Runnable) add(new CenarioDificil()));
+                            cenario.start();
+                            
                             setSize(800, 700);
                             
                             Image cursorImage = Toolkit.getDefaultToolkit().getImage("");
@@ -97,8 +102,8 @@ package SpaceWar;
                         }
 
             public static void main(String[] args) {
-                
-                    JanelaDoJogo janelaDoJogo = new JanelaDoJogo();
+            
+                JanelaDoJogo janelaDoJogo = new JanelaDoJogo();
 
                     thread.start();
 

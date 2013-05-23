@@ -4,7 +4,6 @@ package SpaceWar;
     import java.awt.Font;
     import java.awt.Graphics;
     import java.awt.Graphics2D;
-    import java.awt.Image;
     import java.awt.Rectangle;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
@@ -22,38 +21,44 @@ package SpaceWar;
     import javax.swing.JPanel;
     import javax.swing.Timer;
 
-    public class Cenario extends JPanel implements ActionListener {
+    public class CenarioNormal extends JPanel implements ActionListener,Runnable {
 
             private SpaceWar airPlane;
             private Timer tempo;
             private boolean jogando;
-            private List<NaveInimigaNormal> inimigos ;
+            private List<NaveInimigaNormal> inimigos;
             private SistemaOperacional so;
-            private Trilha trilha = new Trilha("Batalha");
-            private Thread thread = new Thread(trilha);
-            private Trilha trilha2 = new Trilha("Perdeu");
-            private Thread thread2 = new Thread(trilha2);
-            private Trilha trilha3 = new Trilha("Ganhou");
-            private Thread thread3 = new Thread(trilha3);
+            private Trilha batalha = new Trilha("Batalha");
+            private Thread musicaDoCenario = new Thread(batalha);
+            private Trilha perdeu = new Trilha("Perdeu");
+            private Thread musicaDoGameOver = new Thread(perdeu);
+            private Trilha ganhou = new Trilha("Ganhou");
+            private Thread musicaDaVitoria = new Thread(ganhou);
             private List <MoverCenario> moveCenario;
             private List <Life> vida;
-         
-            private int[][] coordenadas = {{55,0},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
-                                          {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150}};
-
+            Timer a;
+            
+            private int[][] coordenadas = {{55,0},{190,-690},{240,-110},{90,-170},{350,-220},{400,-350},{450,-430},{300,-450},{70,-600},{450,-650},
+                                          {330,-500},{410,-550},{480,-700},{179,-300},{250,-400},{200,-220},{100,-100},{300,-150},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
+                                          {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150},{55,1000},{190,1690},{240,1110},{90,1170},{350,1220},{400,1350},{450,1430},{300,1450},{70,1600},{450,1650},
+                                          {330,1500},{410,1550},{480,1700},{179,1300},{250,-1400},{200,-1220},{100,-1100},{300,-1150},{190,-1690},{240,-1110},{90,-1170},{350,-1220},{400,-1350},{450,-1430},{300,-1450},{70,-1600},{450,-1650},
+                                          {330,-1500},{410,-1550},{480,-1700},{179,-1300},{250,-1400},{200,-1220},{100,-1100},{300,-1150}};
+                    
+  
             private int[][] coordenadasCenario = {{0,-6300}};
             
             private int[][] coordenadasLife = {{690,10},{710,10},{730,10},{750,10},{770,10}};
             
-            public Cenario(){
-
-                    setFocusable(true);
-                    setDoubleBuffered(true);
-                    addKeyListener(new PegaEvento());
-                    addMouseListener(new PegaMouse());
-                    addMouseMotionListener(new MoveMouse());
-
-                    airPlane = new SpaceWar();
+            @Override
+             public void run() {
+                
+                setFocusable(true);
+                setDoubleBuffered(true);
+                addKeyListener(new PegaEvento());
+                addMouseListener(new PegaMouse());
+                addMouseMotionListener(new MoveMouse());
+                
+                airPlane = new SpaceWar();
 
                     jogando = true;
                     
@@ -64,8 +69,9 @@ package SpaceWar;
                     tempo = new Timer(5, this);
                     tempo.start();
                     
-                    thread.start();                
-                   
+                    musicaDoCenario.start();
+                    Thread.yield();  
+                
             }
             
             private void adicionaInimigos(){
@@ -124,8 +130,8 @@ package SpaceWar;
                         
                     }
 
-                    for(int i = 0;i < inimigos.size(); i++){
-
+                    for(int i = 1;i < inimigos.size(); i++){
+                        
                         NaveInimigaNormal inimi = inimigos.get(i);
 
                         grafico.drawImage(inimi.getImagem(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
@@ -152,16 +158,16 @@ package SpaceWar;
                     
                     }else if(vida.isEmpty()){
                         
-                        thread.stop();
-                        thread2.start();
-                        
+                        musicaDoCenario.stop();
+                        musicaDoGameOver.start();
+                        a = new Timer(10000, this);
                         ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/morreu.png"));
                         grafico.drawImage(creditos.getImage(), 0, 0, this);
                     
                     }else if(inimigos.isEmpty()){
                         
-                        thread.stop();
-                        thread3.start();
+                        musicaDoCenario.stop();
+                        musicaDaVitoria.start();
                         
                         ImageIcon creditos2 = new ImageIcon(getClass().getResource("/Imagens/vencedor.png"));
                         grafico.drawImage(creditos2.getImage(), 0, 0, this);
@@ -215,7 +221,7 @@ package SpaceWar;
                     try {
                         cenarioMove.moverCenario();
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CenarioNormal.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     }
@@ -288,7 +294,9 @@ package SpaceWar;
                     public void keyReleased(KeyEvent tecla) {
 
                             airPlane.keyReleased(tecla);
-                    }	
+                    }
+                    
+                    
 
             }
 

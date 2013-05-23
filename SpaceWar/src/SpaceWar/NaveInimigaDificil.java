@@ -90,7 +90,6 @@ package SpaceWar;
 
         public Rectangle getBounds(){
             return new Rectangle(posicaoX, posicaoY, largura, altura);
-
         }
 
     }

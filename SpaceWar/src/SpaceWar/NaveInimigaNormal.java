@@ -14,7 +14,7 @@ package SpaceWar;
         private int altura;
         private boolean visivel = true;
         private final int ALTURA_DA_TELA = 0;
-        private final int VELOCIDADE_DO_INIMIGO = 2;
+        private final int VELOCIDADE_DO_INIMIGO = 3;
         private static int contador = 0;
         private ImageIcon retornaImagem;
         private ImageIcon retornaImagem2;
@@ -49,7 +49,7 @@ package SpaceWar;
 
         public void moverInimigo(){
 
-            if(this.posicaoY < 0 || this.posicaoY == 700){
+            if(this.posicaoY < -2000 || this.posicaoY == 7000){
                 this.posicaoY = ALTURA_DA_TELA;
             }else{
                 this.posicaoY += VELOCIDADE_DO_INIMIGO;
@@ -90,7 +90,6 @@ package SpaceWar;
 
         public Rectangle getBounds(){
             return new Rectangle(posicaoX, posicaoY, largura, altura);
-
         }
 
     }

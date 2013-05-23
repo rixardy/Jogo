@@ -4,12 +4,10 @@ package SpaceWar;
     import java.awt.Rectangle;
     import java.awt.event.KeyEvent;
     import java.awt.event.MouseEvent;
-    import java.net.URL;
     import java.util.ArrayList;
     import java.util.List;
     import javax.swing.ImageIcon;
 
-    
            public class SpaceWar {
 
             private int posicaoX;
@@ -21,29 +19,12 @@ package SpaceWar;
             private Image imagem;
             private List<Tiro> tiros;
             private boolean visivel;
-            private SistemaOperacional so;
             
             public SpaceWar(){
                 
-                so = new SistemaOperacional();
-                URL im = getClass().getResource("/Imagens/nave.png");
-                
-                    switch (so.identificaSO()) {
-                    case "mac":
-                        {
-                            ImageIcon retornaImagem = new ImageIcon(im);
-                            imagem = retornaImagem.getImage();
-                            break;
-                        }
-                    case "win":
-                        {
-                            ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/nave.png"));
-                            imagem = retornaImagem.getImage();
-                            break;
-                        }
-                }
-                   
-
+                    ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/nave.png"));
+                    imagem = retornaImagem.getImage();
+                            
                     altura = imagem.getHeight(null);
                     largura = imagem.getWidth(null);
 
@@ -83,16 +64,16 @@ package SpaceWar;
                     }
 
             }
-
+            
             public void keyPressed (KeyEvent teclado) {
-
-                    int tecla = teclado.getKeyCode();
+                
+                int tecla = teclado.getKeyCode();
                     if(tecla == KeyEvent.VK_SPACE){
                         
                         atirar();
                         
                     }
-                    
+                
                     if(tecla == KeyEvent.VK_UP){
 
                             moveY = -2;

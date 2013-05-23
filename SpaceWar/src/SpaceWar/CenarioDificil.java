@@ -4,7 +4,6 @@ package SpaceWar;
     import java.awt.Font;
     import java.awt.Graphics;
     import java.awt.Graphics2D;
-    import java.awt.Image;
     import java.awt.Rectangle;
     import java.awt.event.ActionEvent;
     import java.awt.event.ActionListener;
@@ -13,7 +12,6 @@ package SpaceWar;
     import java.awt.event.MouseAdapter;
     import java.awt.event.MouseEvent;
     import java.awt.event.MouseMotionAdapter;
-    import java.net.URL;
     import java.util.ArrayList;
     import java.util.List;
     import java.util.logging.Level;
@@ -23,7 +21,7 @@ package SpaceWar;
     import javax.swing.JPanel;
     import javax.swing.Timer;
 
-    public final class CenarioDificil extends JPanel implements ActionListener {
+    public final class CenarioDificil extends JPanel implements ActionListener,Runnable {
 
             private SpaceWar airPlane;
             private Timer tempo;
@@ -47,7 +45,8 @@ package SpaceWar;
             
             private int[][] coordenadasLife = {{690,10},{710,10},{730,10},{750,10},{770,10}};
             
-            public CenarioDificil(){
+            @Override
+            public void run(){
 
                     setFocusable(true);
                     setDoubleBuffered(true);
@@ -70,15 +69,6 @@ package SpaceWar;
                    
             }
             
-            private void dormir(long tempo){
-            
-                try {
-            Thread.sleep(tempo);
-            } catch (InterruptedException ex) {
-            Logger.getLogger(CenarioDificil.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-
             public void adicionaInimigos(){
 
             inimigos = new ArrayList<>();

@@ -6,7 +6,6 @@ package SpaceWar;
     public class MoverCenario {
 
         private Image imagemCenario;
-        private Image imagemCenario2;
         private int posicaoX;
         private int posicaoY;
         private int largura;
@@ -22,7 +21,7 @@ package SpaceWar;
 
             ImageIcon retornaCenario;
                 
-            retornaCenario = new ImageIcon(getClass().getResource("/Imagens/torre.jpg"));
+            retornaCenario = new ImageIcon(getClass().getResource("/Imagens/extrela.png"));
             imagemCenario = retornaCenario.getImage();
             
             this.largura = imagemCenario.getWidth(null);
