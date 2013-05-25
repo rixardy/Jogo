@@ -21,7 +21,7 @@ package SpaceWar;
     import javax.swing.JPanel;
     import javax.swing.Timer;
 
-    public class CenarioNormal extends JPanel implements ActionListener,Runnable {
+    public class CenarioNormal extends JPanel implements ActionListener,Runnable{
 
             private SpaceWar airPlane;
             private Timer tempo;
@@ -36,18 +36,15 @@ package SpaceWar;
             private Thread musicaDaVitoria = new Thread(ganhou);
             private List <MoverCenario> moveCenario;
             private List <Life> vida;
-            Timer a;
             
-            private int[][] coordenadas = {{55,0},{190,-690},{240,-110},{90,-170},{350,-220},{400,-350},{450,-430},{300,-450},{70,-600},{450,-650},
-                                          {330,-500},{410,-550},{480,-700},{179,-300},{250,-400},{200,-220},{100,-100},{300,-150},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
-                                          {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150},{55,1000},{190,1690},{240,1110},{90,1170},{350,1220},{400,1350},{450,1430},{300,1450},{70,1600},{450,1650},
-                                          {330,1500},{410,1550},{480,1700},{179,1300},{250,-1400},{200,-1220},{100,-1100},{300,-1150},{190,-1690},{240,-1110},{90,-1170},{350,-1220},{400,-1350},{450,-1430},{300,-1450},{70,-1600},{450,-1650},
-                                          {330,-1500},{410,-1550},{480,-1700},{179,-1300},{250,-1400},{200,-1220},{100,-1100},{300,-1150}};
+            private int[][] coordenadas = {{55,0},{190,690},{240,110},{90,170},{350,220},{400,350},{450,430},{300,450},{70,600},{450,650},
+                                          {330,500},{410,550},{480,700},{179,300},{250,400},{200,220},{100,100},{300,150}};
                     
   
             private int[][] coordenadasCenario = {{0,-6300}};
             
             private int[][] coordenadasLife = {{690,10},{710,10},{730,10},{750,10},{770,10}};
+            
             
             @Override
              public void run() {
@@ -55,8 +52,8 @@ package SpaceWar;
                 setFocusable(true);
                 setDoubleBuffered(true);
                 addKeyListener(new PegaEvento());
-                addMouseListener(new PegaMouse());
-                addMouseMotionListener(new MoveMouse());
+                //addMouseListener(new PegaMouse());
+                //addMouseMotionListener(new MoveMouse());
                 
                 airPlane = new SpaceWar();
 
@@ -130,7 +127,7 @@ package SpaceWar;
                         
                     }
 
-                    for(int i = 1;i < inimigos.size(); i++){
+                    for(int i = 0;i < inimigos.size(); i++){
                         
                         NaveInimigaNormal inimi = inimigos.get(i);
 
@@ -154,13 +151,13 @@ package SpaceWar;
                     
                     grafico.setColor(Color.white);
                     grafico.setFont(new Font("Arial", Font.BOLD, 15));
-                    grafico.drawString("INIMIGOS: "+inimigos.size(), 500, 665);
+                    grafico.drawString("INIMIGOS: "+inimigos.size(), 690, 50);
                     
                     }else if(vida.isEmpty()){
                         
                         musicaDoCenario.stop();
                         musicaDoGameOver.start();
-                        a = new Timer(10000, this);
+                        
                         ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/morreu.png"));
                         grafico.drawImage(creditos.getImage(), 0, 0, this);
                     
@@ -279,8 +276,8 @@ package SpaceWar;
                         }
                     }
                     
+                 }
             }
-   }
 
             private class PegaEvento extends KeyAdapter {
 
@@ -300,7 +297,7 @@ package SpaceWar;
 
             }
 
-            private class PegaMouse extends MouseAdapter {
+            /*private class PegaMouse extends MouseAdapter {
 
                    @Override
                    public void mousePressed(MouseEvent e) {
@@ -323,6 +320,6 @@ package SpaceWar;
 
                           airPlane.mouseMoved(e);
                    }
-            }
+            }*/
 
     }

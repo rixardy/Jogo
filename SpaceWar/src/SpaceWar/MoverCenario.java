@@ -38,7 +38,7 @@ package SpaceWar;
             }else{
                 this.posicaoY += VELOCIDADE_DA_TELA;
             }
-            Thread.sleep(10);
+            //Thread.sleep(10);
         }
 
         private void visivel(){

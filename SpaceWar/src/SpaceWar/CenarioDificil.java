@@ -51,8 +51,8 @@ package SpaceWar;
                     setFocusable(true);
                     setDoubleBuffered(true);
                     addKeyListener(new PegaEvento());
-                    addMouseListener(new PegaMouse());
-                    addMouseMotionListener(new MoveMouse());
+                    //addMouseListener(new PegaMouse());
+                    //addMouseMotionListener(new MoveMouse());
 
                     airPlane = new SpaceWar();
 
@@ -62,7 +62,7 @@ package SpaceWar;
                     adicionaInimigos();
                     adicionaLife();
                     
-                    tempo = new Timer(1, this);
+                    tempo = new Timer(5, this);
                     tempo.start();
                     
                     thread.start();                
@@ -150,8 +150,6 @@ package SpaceWar;
                     grafico.setColor(Color.white);
                     grafico.setFont(new Font("Arial", Font.BOLD, 15));
                     grafico.drawString("INIMIGOS: "+inimigos.size(), 490, 665);
-                    
-                    //dormir(5);
                     
                     }else if(vida.isEmpty()){
                         
@@ -295,7 +293,7 @@ package SpaceWar;
 
             }
 
-            private class PegaMouse extends MouseAdapter {
+            /*private class PegaMouse extends MouseAdapter {
 
                    @Override
                    public void mousePressed(MouseEvent e) {
@@ -318,6 +316,6 @@ package SpaceWar;
 
                           airPlane.mouseMoved(e);
                    }
-            }
+            }*/
 
     }

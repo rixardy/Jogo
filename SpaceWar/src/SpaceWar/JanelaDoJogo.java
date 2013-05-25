@@ -19,7 +19,7 @@ package SpaceWar;
         private Thread cenario;
 
             public JanelaDoJogo(){
-
+                
                     setTitle("Space War");
                     setSize(600, 700);
                     setLocationRelativeTo(null);
@@ -64,7 +64,7 @@ package SpaceWar;
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                            Thread cenario = new Thread((Runnable) add(new CenarioNormal()));
+                            Thread cenario = new Thread((Runnable)add(new CenarioNormal()));
                             cenario.start();
                             
                             setSize(800, 700);
@@ -91,7 +91,7 @@ package SpaceWar;
                             
                             Image cursorImage = Toolkit.getDefaultToolkit().getImage("");
                             Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0),"");
-                            setCursor( blankCursor );
+                            setCursor(blankCursor);
                             
                             thread.stop();
                             

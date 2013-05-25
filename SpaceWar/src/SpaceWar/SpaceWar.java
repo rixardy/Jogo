@@ -135,7 +135,7 @@ package SpaceWar;
 
             }
 
-            public void mousePressed(MouseEvent e) {
+            /*public void mousePressed(MouseEvent e) {
 
                 atirar();
 
@@ -153,7 +153,7 @@ package SpaceWar;
                 posicaoX = e.getX();
                 posicaoY = e.getY();
 
-            }
+            }*/
 
             public int getPosicaoX() {
                     return posicaoX;
