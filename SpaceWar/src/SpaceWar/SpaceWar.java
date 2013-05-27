@@ -8,49 +8,49 @@ package SpaceWar;
     import java.util.List;
     import javax.swing.ImageIcon;
 
-           public class SpaceWar {
+     public class SpaceWar {//classe da nave
 
-            private int posicaoX;
-            private int posicaoY;
-            private int moveX;
-            private int moveY;
-            private int altura;
-            private int largura;
-            private Image imagem;
-            private List<Tiro> tiros;
-            private boolean visivel;
+      private int posicaoX;//posicao x
+      private int posicaoY;//posicao y
+      private int moveX;//vai acrescentar pixels a posicao x
+      private int moveY;//vai acrescentar pixels a posicao y
+      private int altura;//define a altura
+      private int largura;//define a altura
+      private Image imagemDaNave;//cria a imagem da nave
+      private List<Tiro> tiros;//cria uma lista de tiros para adicionar a nave
+      private boolean visivel;//define o estado do jogo
             
             public SpaceWar(){
                 
-                    ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/nave.png"));
-                    imagem = retornaImagem.getImage();
+                    ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/nave.png"));//insere uma imagem
+                    imagemDaNave = retornaImagem.getImage();//pega a imagem e retorna para um objeto do tipo Image 
                             
-                    altura = imagem.getHeight(null);
-                    largura = imagem.getWidth(null);
+                    altura = imagemDaNave.getHeight(null);//define altura para utilizar exatamente o valor da imagem
+                    largura = imagemDaNave.getWidth(null);//define largura para utilizar exatamente o valor da imagem
 
-                    tiros = new ArrayList<>();
-                    this.posicaoX = 0;
-                    this.posicaoY = 600;
-
-            }
-
-            public void atirar(){
-
-                this.tiros.add(new Tiro(posicaoX+largura, posicaoY+altura));
+                    tiros = new ArrayList<>();//passa a lista de tiros para um array
+                    this.posicaoX = 0;//define a posição x inicial da nave
+                    this.posicaoY = 600;//define a posição y inicial da nave
 
             }
 
-            public Rectangle getBounds(){
+            public void atirar(){//cria o metodo de atirar
+
+                this.tiros.add(new Tiro(posicaoX+largura, posicaoY+altura));//adiciona o tiro a mesma posicao da nave
+
+            }
+
+            public Rectangle getBounds(){//metodo para retornar posicoes,largura e altura da imagem da nave
             return new Rectangle(posicaoX, posicaoY, largura, altura);
 
             }
 
-            public void moverAirplane(){
+            public void moverSpaceWar(){//metodo para mover a nave
 
-                    posicaoX += moveX;
-                    posicaoY += moveY;
+                    posicaoX += moveX;//adiciona pixels a posicao x
+                    posicaoY += moveY;//adiciona pixels a posicao y
 
-                    if(this.posicaoX < 1){
+                    if(this.posicaoX < 1){//limita a area para que a nave nao ultrapasse a tela
                         posicaoX = 1;
                     }
                     if(this.posicaoX > 549){
@@ -65,33 +65,33 @@ package SpaceWar;
 
             }
             
-            public void keyPressed (KeyEvent teclado) {
+            public void keyPressed(KeyEvent teclado) {//eventos ao pressionar teclas do teclado
                 
                 int tecla = teclado.getKeyCode();
-                    if(tecla == KeyEvent.VK_SPACE){
+                    if(tecla == KeyEvent.VK_SPACE){//se apertar space a nave atira
                         
                         atirar();
-                        
+
                     }
                 
-                    if(tecla == KeyEvent.VK_UP){
+                    if(tecla == KeyEvent.VK_UP){//se apertar pra seta pra cima ela sobe 2 pixels
 
                             moveY = -2;
                     }
 
-                    if(tecla == KeyEvent.VK_DOWN){
+                    if(tecla == KeyEvent.VK_DOWN){//se apertar pra seta pra baixo ela desce 2 pixels
 
                             moveY = 2;
 
                     }
 
-                    if(tecla == KeyEvent.VK_LEFT){
+                    if(tecla == KeyEvent.VK_LEFT){//se apertar pra seta pra esquerda ela move 2 pixels para esquerda
 
                             moveX = -2;
 
                     }
 
-                    if(tecla == KeyEvent.VK_RIGHT){
+                    if(tecla == KeyEvent.VK_RIGHT){//se apertar pra seta pra direita ela move 2 pixels para direira
 
                             moveX = 2;
 
@@ -99,13 +99,13 @@ package SpaceWar;
 
             }
 
-            public void keyReleased(KeyEvent teclado) {
+            public void keyReleased(KeyEvent teclado) {//evento ao largar tecla,nave fica na mesma posicao
 
             int tecla = teclado.getKeyCode();
             
                     if(tecla == KeyEvent.VK_SPACE){
                         
-                           
+
                         
                     }
 
@@ -156,15 +156,15 @@ package SpaceWar;
             }*/
 
             public int getPosicaoX() {
-                    return posicaoX;
+            return posicaoX;
             }
 
             public int getPosicaoY() {
-                    return posicaoY;
+            return posicaoY;
             }
 
             public Image getImagem() {
-                    return imagem;
+            return imagemDaNave;
             }
 
             public List<Tiro> getTiros() {

@@ -27,14 +27,12 @@ package SpaceWar;
             private Timer tempo;
             private boolean jogando;
             private List<NaveInimigaDificil> inimigos ;
-            private SistemaOperacional so;
-            private int life = 5;
             private Trilha trilha = new Trilha("Batalha");
-            private Thread thread = new Thread(trilha);
+            private Thread thread = new Thread((Runnable) trilha);
             private Trilha trilha2 = new Trilha("Perdeu");
-            private Thread thread2 = new Thread(trilha2);
+            private Thread thread2 = new Thread((Runnable) trilha2);
             private Trilha trilha3 = new Trilha("Ganhou");
-            private Thread thread3 = new Thread(trilha3);
+            private Thread thread3 = new Thread((Runnable) trilha3);
             private List <MoverCenario> moveCenario;
             private List <Life> vida;
          
@@ -64,7 +62,7 @@ package SpaceWar;
                     
                     tempo = new Timer(5, this);
                     tempo.start();
-                    
+
                     thread.start();                
                    
             }
@@ -149,7 +147,7 @@ package SpaceWar;
                     
                     grafico.setColor(Color.white);
                     grafico.setFont(new Font("Arial", Font.BOLD, 15));
-                    grafico.drawString("INIMIGOS: "+inimigos.size(), 490, 665);
+                    grafico.drawString("INIMIGOS: "+inimigos.size(),690,50);
                     
                     }else if(vida.isEmpty()){
                         
@@ -221,7 +219,7 @@ package SpaceWar;
 
                     }
 
-                    airPlane.moverAirplane();
+                    airPlane.moverSpaceWar();
                     capturarColisoes();
                     repaint();
 

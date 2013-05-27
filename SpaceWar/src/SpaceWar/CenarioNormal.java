@@ -21,19 +21,18 @@ package SpaceWar;
     import javax.swing.JPanel;
     import javax.swing.Timer;
 
-    public class CenarioNormal extends JPanel implements ActionListener,Runnable{
+    public class CenarioNormal extends JPanel implements ActionListener{
 
             private SpaceWar airPlane;
             private Timer tempo;
             private boolean jogando;
             private List<NaveInimigaNormal> inimigos;
-            private SistemaOperacional so;
-            private Trilha batalha = new Trilha("Batalha");
-            private Thread musicaDoCenario = new Thread(batalha);
-            private Trilha perdeu = new Trilha("Perdeu");
-            private Thread musicaDoGameOver = new Thread(perdeu);
-            private Trilha ganhou = new Trilha("Ganhou");
-            private Thread musicaDaVitoria = new Thread(ganhou);
+            private Trilha trilhaBatalha = new Trilha("Batalha");
+            private Thread threadTrilhaBatalha = new Thread(trilhaBatalha);
+            private Trilha trilhaPerdeu = new Trilha("Perdeu");
+            private Thread threadTrilhaPerdeu = new Thread(trilhaPerdeu);
+            private Trilha trilhaGanhou = new Trilha("Ganhou");
+            private Thread threadTrilhaGanhou = new Thread(trilhaGanhou);
             private List <MoverCenario> moveCenario;
             private List <Life> vida;
             
@@ -45,29 +44,28 @@ package SpaceWar;
             
             private int[][] coordenadasLife = {{690,10},{710,10},{730,10},{750,10},{770,10}};
             
-            
-            @Override
-             public void run() {
+           
+             public CenarioNormal() {
                 
-                setFocusable(true);
-                setDoubleBuffered(true);
-                addKeyListener(new PegaEvento());
-                //addMouseListener(new PegaMouse());
-                //addMouseMotionListener(new MoveMouse());
-                
-                airPlane = new SpaceWar();
+                    setFocusable(true);
+                    setDoubleBuffered(true);
+                    addKeyListener(new PegaEvento());
+                    //addMouseListener(new PegaMouse());
+                    //addMouseMotionListener(new MoveMouse());
+                    
+                        airPlane = new SpaceWar();
 
-                    jogando = true;
-                    
-                    adicionaCenario();
-                    adicionaInimigos();
-                    adicionaLife();
-                    
-                    tempo = new Timer(5, this);
-                    tempo.start();
-                    
-                    musicaDoCenario.start();
-                    Thread.yield();  
+                        jogando = true;
+                        
+                        adicionaCenario();  
+                        adicionaInimigos();
+                        adicionaLife();
+                        
+                        tempo = new Timer(5, this);
+                        tempo.start();
+
+                        threadTrilhaBatalha.start();
+                        Thread.yield();
                 
             }
             
@@ -155,16 +153,16 @@ package SpaceWar;
                     
                     }else if(vida.isEmpty()){
                         
-                        musicaDoCenario.stop();
-                        musicaDoGameOver.start();
+                        trilhaBatalha.parar_trilha(1);
+                        threadTrilhaPerdeu.start();
                         
                         ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/morreu.png"));
                         grafico.drawImage(creditos.getImage(), 0, 0, this);
                     
                     }else if(inimigos.isEmpty()){
                         
-                        musicaDoCenario.stop();
-                        musicaDaVitoria.start();
+                        trilhaBatalha.parar_trilha(1);
+                        threadTrilhaGanhou.start();
                         
                         ImageIcon creditos2 = new ImageIcon(getClass().getResource("/Imagens/vencedor.png"));
                         grafico.drawImage(creditos2.getImage(), 0, 0, this);
@@ -223,7 +221,7 @@ package SpaceWar;
 
                     }
 
-                    airPlane.moverAirplane();
+                    airPlane.moverSpaceWar();
                     capturarColisoes();
                     repaint();
 

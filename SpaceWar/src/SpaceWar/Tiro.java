@@ -17,8 +17,8 @@ package SpaceWar;
         
         public Tiro(int posicaoX, int posicaoY) {
 
-            this.posicaoX = posicaoX - 35;
-            this.posicaoY = posicaoY - 50;
+            this.posicaoX = posicaoX - 33;//define a posicao x inicial do tiro
+            this.posicaoY = posicaoY - 50;//define a posicao x inicial do tiro
             
                 ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/tiro.png"));
                 imagem = retornaImagem.getImage();
@@ -39,30 +39,8 @@ package SpaceWar;
                     invisivel();
                 }
             }
-            
-            public void moverTiroDireita(){
 
-                this.posicaoY -= VELOCIDADE_DO_TIRO;
-                this.posicaoX +=1-1/2;
-
-                if(this.posicaoY > ALTURA_DA_TELA){
-
-                    invisivel();
-                }
-            }
-            
-            public void moverTiroEsquerda(){
-
-                this.posicaoY -= VELOCIDADE_DO_TIRO;
-                this.posicaoX -=1+1/2;
-
-                if(this.posicaoY > ALTURA_DA_TELA){
-
-                    invisivel();
-                }
-            }
-
-        public void visivel(){
+        private void visivel(){
             visivel = true;
         }
 

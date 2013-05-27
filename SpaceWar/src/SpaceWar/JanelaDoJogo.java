@@ -12,37 +12,39 @@ package SpaceWar;
     import javax.swing.JLabel;
     import javax.swing.JPanel;
 
-    public class JanelaDoJogo extends JFrame {
+    public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
         
-        private static Trilha trilha = new Trilha("Introducao");
-        private static Thread thread = new Thread(trilha);
+        private static Trilha trilhaIntruducao = new Trilha("Introducao");//cria um objeto da classe trilha
+        private static Thread threadTrilhaIntroducao = new Thread(trilhaIntruducao);//cria um objeto thread e passa como parametro a trilha que sera utilizada
         private Thread cenario;
+        private Image imagemSeta;//cria a imagem para colocar no cursor do mouse
+        private Cursor setaMouse;//cria um objeto cursor para alterar suas propriedades
 
-            public JanelaDoJogo(){
+            public JanelaDoJogo(){//construtor
                 
-                    setTitle("Space War");
-                    setSize(600, 700);
-                    setLocationRelativeTo(null);
-                    setResizable(false);
+                    this.setTitle("Space War");//titulo da janela
+                    this.setSize(600, 700);//tamanho da janela
+                    this.setLocationRelativeTo(null);//faz que a janela apareça no centro
+                    this.setResizable(false);//desativa a função de maximizar
                     
-                    ImageIcon imageI = new ImageIcon(getClass().getResource("/Imagens/14bis.png"));
-                    final JLabel label = new JLabel(imageI);
-                    label.setBounds(0, 0, 600, 700);
+                    ImageIcon imageI = new ImageIcon(getClass().getResource("/Imagens/14bis.png"));//insere uma imagem
+                    final JLabel label = new JLabel(imageI);//passa a imagem dentro do label para poder aparecer
+                    label.setBounds(0, 0, 600, 700);//posicao x e y,largura e altura
 
-                    final JPanel painel = new JPanel();
-                    add(painel);
-                    painel.add(label);
+                    final JPanel painel = new JPanel();//cria um painel
+                    add(painel);//adiciona o painel a janela
+                    painel.add(label);//adiciona o label que contem a imagem ao painel
                     
-                    ImageIcon start = new ImageIcon(getClass().getResource("/Imagens/normal.png"));
-                    JButton botaoNormal = new JButton("",start);
-                    botaoNormal.setRolloverIcon(start);
-                    botaoNormal.setPressedIcon(start);
-                    botaoNormal.setBorderPainted(false);
-                    botaoNormal.setContentAreaFilled(false);
-                    botaoNormal.setFocusPainted(false);
-                    botaoNormal.setBounds(30, 560, 80, 80);
-                    botaoNormal.setVisible(true);
-                    label.add(botaoNormal);
+                    ImageIcon start = new ImageIcon(getClass().getResource("/Imagens/normal.png"));//insere uma imagem
+                    JButton botaoNormal = new JButton("",start);//cria um botao e passa o nome e a imagem que vai conter
+                    botaoNormal.setRolloverIcon(start);//retorna o icone de rolagem
+                    botaoNormal.setPressedIcon(start);//Define o ícone pressionado para o botão.
+                    botaoNormal.setBorderPainted(false);//faz sumir as bordas do botão
+                    botaoNormal.setContentAreaFilled(false);//faz o fundo do botão ficar transparente
+                    botaoNormal.setFocusPainted(false);//faz com que o botão não tenha o foco inicial
+                    botaoNormal.setBounds(30, 560, 80, 80);//define a posicao x e y,largura e altura
+                    botaoNormal.setVisible(true);//deixa o botão visivel
+                    label.add(botaoNormal);//adiciona o botao ao label da tela de jogo
                     
                     ImageIcon dificil = new ImageIcon(getClass().getResource("/Imagens/dificil.png"));
                     JButton botaoDificil = new JButton("",dificil);
@@ -55,11 +57,11 @@ package SpaceWar;
                     botaoDificil.setVisible(true);
                     label.add(botaoDificil);
                     
-                    painel.setVisible(true);
-                    setVisible(true);
-                    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    painel.setVisible(true);//deixa o painel visivel
+                    this.setVisible(true);//deixa o frame visivel
+                    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//faz com que a aplicação pare de rodar ao fechar a janela
                     
-                    botaoNormal.addActionListener(new ActionListener() {
+                    botaoNormal.addActionListener(new ActionListener() {//cria um evento para o botao
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -67,15 +69,15 @@ package SpaceWar;
                             Thread cenario = new Thread((Runnable)add(new CenarioNormal()));
                             cenario.start();
                             
-                            setSize(800, 700);
+                            setSize(800, 700);//altera a largura da janela
                             
-                            Image cursorImage = Toolkit.getDefaultToolkit().getImage("");
-                            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0),"");
-                            setCursor( blankCursor );
+                            imagemSeta = Toolkit.getDefaultToolkit().getImage("");//cria uma imagem vazia
+                            setaMouse = Toolkit.getDefaultToolkit().createCustomCursor(imagemSeta, new Point(0,0),"");//edita propriedades da seta do mouse passando um novo ponto e uma imagem vazia 
+                            setCursor(setaMouse);//
+
+                            trilhaIntruducao.parar_trilha(1);//para a musica de introducao ao apertar o botao
                             
-                            thread.stop();
-                            
-                            painel.setVisible(false);
+                            painel.setVisible(false);//faz com que o painel inicial desapareça
                         }
                     });
                     
@@ -84,16 +86,16 @@ package SpaceWar;
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                            cenario = new Thread((Runnable) add(new CenarioDificil()));
+                            cenario = new Thread((Runnable)add(new CenarioDificil()));
                             cenario.start();
                             
                             setSize(800, 700);
                             
-                            Image cursorImage = Toolkit.getDefaultToolkit().getImage("");
-                            Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImage, new Point(0,0),"");
-                            setCursor(blankCursor);
+                            imagemSeta = Toolkit.getDefaultToolkit().getImage("");
+                            setaMouse = Toolkit.getDefaultToolkit().createCustomCursor(imagemSeta, new Point(0,0),"");
+                            setCursor(setaMouse);
                             
-                            thread.stop();
+                            trilhaIntruducao.parar_trilha(1);
                             
                             painel.setVisible(false);
                         }
@@ -105,7 +107,7 @@ package SpaceWar;
             
                 JanelaDoJogo janelaDoJogo = new JanelaDoJogo();
 
-                    thread.start();
+                    threadTrilhaIntroducao.start();//toca a musica de introducao
 
             }
 

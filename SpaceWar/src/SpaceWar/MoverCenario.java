@@ -8,24 +8,16 @@ package SpaceWar;
         private Image imagemCenario;
         private int posicaoX;
         private int posicaoY;
-        private int largura;
-        private int altura;
         private boolean visivel = true;
         private final int ALTURA_DA_TELA = -6300;
         private final float VELOCIDADE_DA_TELA = 1;
 
         public MoverCenario (int posicaoX, int posicaoY) {
 
-            this.posicaoX = posicaoX;
-            this.posicaoY = posicaoY;
-
             ImageIcon retornaCenario;
                 
             retornaCenario = new ImageIcon(getClass().getResource("/Imagens/extrela.png"));
             imagemCenario = retornaCenario.getImage();
-            
-            this.largura = imagemCenario.getWidth(null);
-            this.altura = imagemCenario.getHeight(null);
 
             visivel();
 
@@ -38,7 +30,7 @@ package SpaceWar;
             }else{
                 this.posicaoY += VELOCIDADE_DA_TELA;
             }
-            //Thread.sleep(10);
+
         }
 
         private void visivel(){
