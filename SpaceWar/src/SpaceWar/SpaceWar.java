@@ -3,7 +3,6 @@ package SpaceWar;
     import java.awt.Image;
     import java.awt.Rectangle;
     import java.awt.event.KeyEvent;
-    import java.awt.event.MouseEvent;
     import java.util.ArrayList;
     import java.util.List;
     import javax.swing.ImageIcon;
@@ -19,7 +18,7 @@ package SpaceWar;
       private Image imagemDaNave;//cria a imagem da nave
       private List<Tiro> tiros;//cria uma lista de tiros para adicionar a nave
       private boolean visivel;//define o estado do jogo
-            
+
             public SpaceWar(){
                 
                     ImageIcon retornaImagem = new ImageIcon(getClass().getResource("/Imagens/nave.png"));//insere uma imagem
@@ -64,11 +63,12 @@ package SpaceWar;
                     }
 
             }
-            
+   
             public void keyPressed(KeyEvent teclado) {//eventos ao pressionar teclas do teclado
                 
                 int tecla = teclado.getKeyCode();
-                    if(tecla == KeyEvent.VK_SPACE){//se apertar space a nave atira
+                
+                if(tecla == KeyEvent.VK_SPACE){//se apertar space a nave atira
                         
                         atirar();
 
@@ -79,19 +79,19 @@ package SpaceWar;
                             moveY = -2;
                     }
 
-                    if(tecla == KeyEvent.VK_DOWN){//se apertar pra seta pra baixo ela desce 2 pixels
+                    else if(tecla == KeyEvent.VK_DOWN){//se apertar pra seta pra baixo ela desce 2 pixels
 
                             moveY = 2;
 
                     }
 
-                    if(tecla == KeyEvent.VK_LEFT){//se apertar pra seta pra esquerda ela move 2 pixels para esquerda
+                    else if(tecla == KeyEvent.VK_LEFT){//se apertar pra seta pra esquerda ela move 2 pixels para esquerda
 
                             moveX = -2;
 
                     }
 
-                    if(tecla == KeyEvent.VK_RIGHT){//se apertar pra seta pra direita ela move 2 pixels para direira
+                    else if(tecla == KeyEvent.VK_RIGHT){//se apertar pra seta pra direita ela move 2 pixels para direira
 
                             moveX = 2;
 
@@ -134,26 +134,6 @@ package SpaceWar;
                     }
 
             }
-
-            /*public void mousePressed(MouseEvent e) {
-
-                atirar();
-
-            }
-
-            public void mouseMoved(MouseEvent e) {  
-
-                posicaoX = e.getX();
-                posicaoY = e.getY();
-
-            }
-
-            public void mouseDragged(MouseEvent e) {  
-
-                posicaoX = e.getX();
-                posicaoY = e.getY();
-
-            }*/
 
             public int getPosicaoX() {
             return posicaoX;
