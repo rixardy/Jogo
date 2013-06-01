@@ -2,12 +2,14 @@ package SpaceWar;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.Random;
 import javax.swing.ImageIcon;
 
 public class NaveInimiga {
 
-    private Image imagem;
-    private Image imagem2;
+    private Image imagemNaveInimiga;
+    private Image imagemExplosao;
+    private Image imagemChefao;
     private int posicaoX;
     private int posicaoY;
     private int largura;
@@ -16,9 +18,10 @@ public class NaveInimiga {
     private final int ALTURA_DA_TELA = 0;
     private int velocidadeInimigo;
     private static int contador = 0;
-    private ImageIcon retornaImagem;
-    private ImageIcon retornaImagem2;
-
+    private ImageIcon retornaImagemNaveInimiga;
+    private ImageIcon retornaImagemExplosao;
+    private ImageIcon retornaImagemChefao;
+    
     public NaveInimiga(int posicaoX, int posicaoY) {
 
         this.posicaoX = posicaoX;
@@ -27,25 +30,28 @@ public class NaveInimiga {
 
         if (contador++ % 3 == 0) {
 
-            retornaImagem = new ImageIcon(getClass().getResource("/Imagens/naveInimiga4.png"));
+            retornaImagemNaveInimiga = new ImageIcon(getClass().getResource("/Imagens/naveInimiga.png"));
 
-        } else if (contador++ % 2 == 0){
+        } else if (contador++ % 2 == 0) {
 
-            retornaImagem = new ImageIcon(getClass().getResource("/Imagens/naveInimiga3.png"));
+            retornaImagemNaveInimiga = new ImageIcon(getClass().getResource("/Imagens/naveInimiga3.png"));
 
         } else {
-            
-            retornaImagem = new ImageIcon(getClass().getResource("/Imagens/naveInimiga2.png"));
-            
+
+            retornaImagemNaveInimiga = new ImageIcon(getClass().getResource("/Imagens/naveInimiga2.png"));
+
         }
 
-        retornaImagem2 = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
+        retornaImagemExplosao = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
 
-        imagem = retornaImagem.getImage();
-        imagem2 = retornaImagem2.getImage();
+        retornaImagemChefao = new ImageIcon(getClass().getResource("/Imagens/chefao.png"));
+        
+        imagemNaveInimiga = retornaImagemNaveInimiga.getImage();
+        imagemExplosao = retornaImagemExplosao.getImage();
+        imagemChefao = retornaImagemChefao.getImage();
 
-        this.largura = imagem.getWidth(null);
-        this.altura = imagem.getHeight(null);
+        this.largura = imagemNaveInimiga.getWidth(null);
+        this.altura = imagemNaveInimiga.getHeight(null);
 
         visivel();
 
@@ -53,8 +59,11 @@ public class NaveInimiga {
 
     public void moverInimigo() {
 
+        Random randomX = new Random();
+
         if (this.posicaoY >= 700) {
-            this.posicaoY = ALTURA_DA_TELA;
+            this.posicaoY = -20100;
+            this.posicaoX = randomX.nextInt(10) * 55;
         } else {
             this.posicaoY += velocidadeInimigo;
         }
@@ -68,12 +77,16 @@ public class NaveInimiga {
         visivel = false;
     }
 
-    public Image getImagem() {
-        return imagem;
+    public Image getImagemNaveInimiga() {
+        return imagemNaveInimiga;
     }
 
-    public Image getImagem2() {
-        return imagem2;
+    public Image getImagemExplosao() {
+        return imagemExplosao;
+    }
+
+    public Image getImagemChefao() {
+        return imagemChefao;
     }
 
     public int getPosicaoX() {
@@ -99,5 +112,4 @@ public class NaveInimiga {
     public void setVelocidadeInimigo(int velocidadeInimigo) {
         this.velocidadeInimigo = velocidadeInimigo;
     }
-    
 }

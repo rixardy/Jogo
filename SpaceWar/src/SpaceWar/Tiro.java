@@ -12,7 +12,7 @@ public class Tiro {
     private int largura;
     private int altura;
     private boolean visivel = true;
-    private final int ALTURA_DA_TELA = 700;
+    private final int ALTURA_DA_TELA = 0;
     private final int VELOCIDADE_DO_TIRO = 5;
 
     public Tiro(int posicaoX, int posicaoY) {
@@ -34,7 +34,7 @@ public class Tiro {
 
         this.posicaoY -= VELOCIDADE_DO_TIRO;
 
-        if (this.posicaoY > ALTURA_DA_TELA) {
+        if (this.posicaoY < ALTURA_DA_TELA) {
 
             invisivel();
         }

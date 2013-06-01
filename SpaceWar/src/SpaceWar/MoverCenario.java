@@ -8,9 +8,9 @@ public class MoverCenario {
     private Image imagemCenario;
     private int posicaoX;
     private int posicaoY;
-    private boolean visivel = true;
+    private boolean visivel;
     private final int ALTURA_DA_TELA = -6300;
-    private final float VELOCIDADE_DA_TELA = 1;
+    private final int VELOCIDADE_DA_TELA = 1;
 
     public MoverCenario(int posicaoX, int posicaoY) {
 

@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +31,7 @@ public class Cenario extends JPanel implements Runnable {
     private List<Life> arrayVida;
     private int velocidadeDoInimigo;
     private boolean pause = false;
-    private int[][] coordenadasInimigos = {{55, 0}, {190, 690}, {240, 110}, {90, 170}, {350, 220}, {400, 350}, {450, 430}, {300, 450}, {70, 600}, {450, 650},
-        {330, 500}, {410, 550}, {480, 700}, {179, 300}, {250, 400}, {200, 220}, {100, 100}, {300, 150}};
+    int[][] coordenadasInimigos = new int[200][9];
     private int[][] coordenadasCenario = {{0, -6300}};
     private int[][] coordenadasLife = {{690, 10}, {710, 10}, {730, 10}, {750, 10}, {770, 10}};
 
@@ -52,14 +52,17 @@ public class Cenario extends JPanel implements Runnable {
 
     private void insereInimigos() {
 
+        Random randomX = new Random();
+
         arrayInimigos = new ArrayList<>();
 
         for (int i = 0; i < coordenadasInimigos.length; i++) {
-            arrayInimigos.add(new NaveInimiga(coordenadasInimigos[i][0], coordenadasInimigos[i][1]));
+            int posicaoX = randomX.nextInt(10) * 60;
+            arrayInimigos.add(new NaveInimiga(posicaoX, i * -100));
         }
 
     }
-
+    
     private void insereCenario() {
 
         arrayMoveCenario = new ArrayList<>();
@@ -111,16 +114,16 @@ public class Cenario extends JPanel implements Runnable {
 
                 NaveInimiga inimi = arrayInimigos.get(i);
 
-                grafico.drawImage(inimi.getImagem(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
+                grafico.drawImage(inimi.getImagemNaveInimiga(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
 
                 if (inimi.isVisivel() == false) {
 
-                    grafico.drawImage(inimi.getImagem2(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
+                    grafico.drawImage(inimi.getImagemExplosao(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
 
                 }
 
             }
-
+            
             for (int m = 0; m < arrayVida.size(); m++) {
 
                 Life vidaL = arrayVida.get(m);
@@ -150,13 +153,11 @@ public class Cenario extends JPanel implements Runnable {
             grafico.drawImage(creditos2.getImage(), 0, 0, this);
 
         }
-        
         if (pause == true) {
 
-            ImageIcon imagemPause = new ImageIcon(getClass().getResource("/Imagens/pause.png"));
-            grafico.drawImage(imagemPause.getImage(), 0, 0, this);
+            ImageIcon imPause = new ImageIcon(getClass().getResource("/Imagens/pause.png"));
+            grafico.drawImage(imPause.getImage(), 0, 0, null);
         }
-        
         pinta.dispose();
 
     }
@@ -224,6 +225,7 @@ public class Cenario extends JPanel implements Runnable {
                 Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
     }
 
     public void capturarColisoes() {
@@ -248,7 +250,7 @@ public class Cenario extends JPanel implements Runnable {
 
                     jogando = false;
                 }
-                //adicionaInimigos();
+
             }
 
         }
@@ -276,14 +278,12 @@ public class Cenario extends JPanel implements Runnable {
         }
     }
 
-    public void setVelocidadeDoInimigo(int velocidadeDoInimigo) {
-        this.velocidadeDoInimigo = velocidadeDoInimigo;
-    }
-
     private class PegaEvento extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent tecla) {
+
+            spaceWar.keyPressed(tecla);
 
             int key = tecla.getKeyCode();
 
@@ -294,16 +294,28 @@ public class Cenario extends JPanel implements Runnable {
                 } else {
                     pause = false;
                 }
-                
+
             }
-            
-            spaceWar.keyPressed(tecla);
+            if (key == KeyEvent.VK_R) {
+
+                new Cenario();
+
+                insereInimigos();
+                insereLife();
+
+            }
+
         }
 
         @Override
         public void keyReleased(KeyEvent tecla) {
 
             spaceWar.keyReleased(tecla);
+
         }
+    }
+
+    public void setVelocidadeDoInimigo(int velocidadeDoInimigo) {
+        this.velocidadeDoInimigo = velocidadeDoInimigo;
     }
 }

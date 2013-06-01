@@ -21,10 +21,10 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
     private Cursor setaMouse;//cria um objeto cursor para alterar suas propriedades
     private Cenario cenarioNormal;
     private Cenario cenarioDificil;
-    
+
     public JanelaDoJogo() {//construtor
 
-        setUndecorated(true);
+        //setUndecorated(true);
         this.setTitle("Space War");//titulo da janela
         this.setSize(600, 700);//tamanho da janela
         this.setLocationRelativeTo(null);//faz que a janela apareça no centro
@@ -69,7 +69,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
             public void actionPerformed(ActionEvent e) {
 
                 cenarioNormal = new Cenario();
-                cenarioNormal.setVelocidadeDoInimigo(2);
+                cenarioNormal.setVelocidadeDoInimigo(3);
                 threadCenario = new Thread((Runnable) add(cenarioNormal));
                 threadCenario.start();
 
@@ -90,7 +90,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
             public void actionPerformed(ActionEvent e) {
 
                 cenarioDificil = new Cenario();
-                cenarioDificil.setVelocidadeDoInimigo(5);
+                cenarioDificil.setVelocidadeDoInimigo(4);
                 threadCenario = new Thread((Runnable) add(cenarioDificil));
                 threadCenario.start();
 
