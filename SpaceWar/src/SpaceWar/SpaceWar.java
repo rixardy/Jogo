@@ -132,7 +132,7 @@ public class SpaceWar implements KeyListener {//classe da nave
             Reprodutor reproduz = new Reprodutor();
 
             try {
-                reproduz.abrirArquivo("Tiro");
+                reproduz.abrirArquivoTiro();
                 reproduz.tocar();
 
             } catch (BasicPlayerException ex) {

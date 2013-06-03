@@ -19,11 +19,6 @@ public class Trilha implements Runnable {
             this.som = "Batalha";
         } else if (som.equals("Introducao")) {
             this.som = "Introducao";
-        } else if (som.equals("Perdeu")) {
-            this.som = "Perdeu";
-        } else if (som.equals("Ganhou")) {
-            this.som = "Ganhou";
-        } else if (som.equals("Tiro")) {
         }
     }
 
@@ -59,47 +54,6 @@ public class Trilha implements Runnable {
             } else if (this.som.equals("Introducao")) {
 
                 in = getClass().getClassLoader().getResourceAsStream("Imagens/inicio.mp3");
-
-                try {
-
-                    p1 = new Player(in);
-                    p1.play();
-
-                } catch (JavaLayerException ex) {
-                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } else if (this.som.equals("Perdeu")) {
-
-                in = getClass().getClassLoader().getResourceAsStream("Imagens/perdeu.mp3");
-
-                try {
-
-                    p1 = new Player(in);
-                    p1.play();
-
-                } catch (JavaLayerException ex) {
-                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } else if (this.som.equals("Ganhou")) {
-
-
-                in = getClass().getClassLoader().getResourceAsStream("Imagens/ganhou.mp3");
-
-                try {
-
-                    p1 = new Player(in);
-                    p1.play();
-
-                } catch (JavaLayerException ex) {
-                    Logger.getLogger(Trilha.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } else if (this.som.equals("Tiro")) {
-
-
-                in = getClass().getClassLoader().getResourceAsStream("Imagens/tiro.mp3");
 
                 try {
 

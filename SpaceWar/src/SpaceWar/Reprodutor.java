@@ -16,28 +16,24 @@ public class Reprodutor {
         player.play();
     }
 
-    public void abrirArquivo(String som) throws BasicPlayerException {
+    public void abrirArquivoTiro() throws BasicPlayerException {
 
-        String urlSom = null;
+        player.open(getLocal("/Imagens/tiro.mp3"));
+    }
+    
+    public void abrirArquivoGanhou() throws BasicPlayerException {
 
-        switch (som) {
-            case "Perdeu":
-                urlSom = "/Imagens/perdeu.mp3";
-                break;
+        player.open(getLocal("/Imagens/ganhou.mp3"));
+    }
+    
+    public void abrirArquivoPerdeu() throws BasicPlayerException {
 
-            case "Ganhou":
-                urlSom = "/Imagens/ganhou.mp3";
-                break;
+        player.open(getLocal("/Imagens/perdeu.mp3"));
+    }
+    
+    public void abrirArquivoExplosao() throws BasicPlayerException {
 
-            case "Explosao":
-                urlSom = "/Imagens/explosao.mp3";
-                break;
-            
-            case "Tiro":
-                urlSom = "/Imagens/tiro.mp3";
-                break;
-        }
-        player.open(getLocal(urlSom));
+        player.open(getLocal("/Imagens/explosao.mp3"));
     }
 
     public void pausar() throws BasicPlayerException {

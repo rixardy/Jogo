@@ -146,7 +146,7 @@ public class Cenario extends JPanel implements Runnable {
             try {
                 if (contador == 0) {
                     trilhaBatalha.parar_trilha(1);
-                    somPerdeu.abrirArquivo("Perdeu");
+                    somPerdeu.abrirArquivoPerdeu();
                     somPerdeu.tocar();
                 }
 
@@ -169,7 +169,7 @@ public class Cenario extends JPanel implements Runnable {
             try {
                 if (contador == 0) {
                     trilhaBatalha.parar_trilha(1);
-                    somGanhou.abrirArquivo("Ganhou");
+                    somGanhou.abrirArquivoGanhou();
                     somGanhou.tocar();
                 }
 
@@ -272,7 +272,7 @@ public class Cenario extends JPanel implements Runnable {
 
                 try {
 
-                    somExplosao.abrirArquivo("Explosao");
+                    somExplosao.abrirArquivoExplosao();
                     somExplosao.tocar();
 
                 } catch (BasicPlayerException ex) {
@@ -304,7 +304,7 @@ public class Cenario extends JPanel implements Runnable {
 
                     try {
 
-                        somExplosao.abrirArquivo("Explosao");
+                        somExplosao.abrirArquivoExplosao();
                         somExplosao.tocar();
 
                     } catch (BasicPlayerException ex) {
