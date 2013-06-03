@@ -9,7 +9,6 @@ public class NaveInimiga {
 
     private Image imagemNaveInimiga;
     private Image imagemExplosao;
-    private Image imagemChefao;
     private int posicaoX;
     private int posicaoY;
     private int largura;
@@ -20,7 +19,6 @@ public class NaveInimiga {
     private static int contador = 0;
     private ImageIcon retornaImagemNaveInimiga;
     private ImageIcon retornaImagemExplosao;
-    private ImageIcon retornaImagemChefao;
     
     public NaveInimiga(int posicaoX, int posicaoY) {
 
@@ -43,12 +41,9 @@ public class NaveInimiga {
         }
 
         retornaImagemExplosao = new ImageIcon(getClass().getResource("/Imagens/explosao.gif"));
-
-        retornaImagemChefao = new ImageIcon(getClass().getResource("/Imagens/chefao.png"));
         
         imagemNaveInimiga = retornaImagemNaveInimiga.getImage();
         imagemExplosao = retornaImagemExplosao.getImage();
-        imagemChefao = retornaImagemChefao.getImage();
 
         this.largura = imagemNaveInimiga.getWidth(null);
         this.altura = imagemNaveInimiga.getHeight(null);
@@ -63,10 +58,10 @@ public class NaveInimiga {
 
         if (this.posicaoY >= 700) {
             this.posicaoY = -20100;
-            this.posicaoX = randomX.nextInt(10) * 55;
+            this.posicaoX = randomX.nextInt(10) * 55;            
         } else {
             this.posicaoY += velocidadeInimigo;
-        }
+            }
     }
 
     private void visivel() {
@@ -83,10 +78,6 @@ public class NaveInimiga {
 
     public Image getImagemExplosao() {
         return imagemExplosao;
-    }
-
-    public Image getImagemChefao() {
-        return imagemChefao;
     }
 
     public int getPosicaoX() {

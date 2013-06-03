@@ -3,6 +3,7 @@ package SpaceWar;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,7 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 
-public class SpaceWar {//classe da nave
+public class SpaceWar implements KeyListener {//classe da nave
 
     private int posicaoX;//posicao x
     private int posicaoY;//posicao y
@@ -21,6 +22,7 @@ public class SpaceWar {//classe da nave
     private Image imagemDaNave;//cria a imagem da nave
     private List<Tiro> tiros;//cria uma lista de tiros para adicionar a nave
     private boolean visivel;//define o estado do jogo
+    private boolean valida = true;
 
     public SpaceWar() {
 
@@ -67,6 +69,7 @@ public class SpaceWar {//classe da nave
 
     }
 
+    @Override
     public void keyPressed(KeyEvent teclado) {//eventos ao pressionar teclas do teclado
 
         int tecla = teclado.getKeyCode();
@@ -90,23 +93,14 @@ public class SpaceWar {//classe da nave
 
     }
 
+    @Override
     public void keyReleased(KeyEvent teclado) {//evento ao largar tecla,nave fica na mesma posicao
 
         int tecla = teclado.getKeyCode();
 
-        if (tecla == KeyEvent.VK_SPACE) {//se apertar space a nave atira
+        valida = true;
 
-            atirar();
-
-            Reprodutor reproduz = new Reprodutor();
-            try {
-                reproduz.abrirArquivo();
-                reproduz.tocar();
-            } catch (BasicPlayerException ex) {
-                Logger.getLogger(SpaceWar.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else if (tecla == KeyEvent.VK_UP) {
+        if (tecla == KeyEvent.VK_UP) {
 
             moveY = 0;
 
@@ -124,6 +118,29 @@ public class SpaceWar {//classe da nave
 
         }
 
+    }
+
+    @Override
+    public void keyTyped(KeyEvent teclado) {
+
+        char tecla = teclado.getKeyChar();
+
+        if (tecla == 32 && valida) {//se apertar space a nave atira
+
+            atirar();
+
+            Reprodutor reproduz = new Reprodutor();
+
+            try {
+                reproduz.abrirArquivo("Tiro");
+                reproduz.tocar();
+
+            } catch (BasicPlayerException ex) {
+                Logger.getLogger(SpaceWar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            valida = false;
+        }
     }
 
     public int getPosicaoX() {

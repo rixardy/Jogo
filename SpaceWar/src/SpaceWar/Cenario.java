@@ -5,8 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 public class Cenario extends JPanel implements Runnable {
 
@@ -23,16 +24,16 @@ public class Cenario extends JPanel implements Runnable {
     private List<NaveInimiga> arrayInimigos;
     private Trilha trilhaBatalha = new Trilha("Batalha");
     private Thread threadTrilhaBatalha = new Thread(trilhaBatalha);
-    private Trilha trilhaPerdeu = new Trilha("Perdeu");
-    private Thread threadTrilhaPerdeu = new Thread(trilhaPerdeu);
-    private Trilha trilhaGanhou = new Trilha("Ganhou");
-    private Thread threadTrilhaGanhou = new Thread(trilhaGanhou);
     private List<MoverCenario> arrayMoveCenario;
-    private List<Life> arrayVida;
+    private List<Life> arrayLife;
     private int velocidadeDoInimigo;
     private boolean pause = false;
-    int[][] coordenadasInimigos = new int[200][9];
-    private int[][] coordenadasCenario = {{0, -6300}};
+    private Reprodutor somExplosao;
+    private Reprodutor somPerdeu;
+    private Reprodutor somGanhou;
+    private int contador = 0;
+    private int[][] coordenadasInimigos = new int[200][9];
+    private int[][] coordenadasCenario = new int[1][2];
     private int[][] coordenadasLife = {{690, 10}, {710, 10}, {730, 10}, {750, 10}, {770, 10}};
 
     public Cenario() {
@@ -62,7 +63,7 @@ public class Cenario extends JPanel implements Runnable {
         }
 
     }
-    
+
     private void insereCenario() {
 
         arrayMoveCenario = new ArrayList<>();
@@ -74,10 +75,11 @@ public class Cenario extends JPanel implements Runnable {
 
     private void insereLife() {
 
-        arrayVida = new ArrayList<>();
+        arrayLife = new ArrayList<>();
 
         for (int i = 0; i < coordenadasLife.length; i++) {
-            arrayVida.add(new Life(coordenadasLife[i][0], coordenadasLife[i][1]));
+            arrayLife.add(new Life(coordenadasLife[i][0], coordenadasLife[i][1]));
+
         }
     }
 
@@ -123,10 +125,10 @@ public class Cenario extends JPanel implements Runnable {
                 }
 
             }
-            
-            for (int m = 0; m < arrayVida.size(); m++) {
 
-                Life vidaL = arrayVida.get(m);
+            for (int m = 0; m < arrayLife.size(); m++) {
+
+                Life vidaL = arrayLife.get(m);
 
                 grafico.drawImage(vidaL.getImagemLife(), vidaL.getPosicaoX(), vidaL.getPosicaoY(), this);
 
@@ -136,18 +138,46 @@ public class Cenario extends JPanel implements Runnable {
             grafico.setFont(new Font("Arial", Font.BOLD, 15));
             grafico.drawString("INIMIGOS: " + arrayInimigos.size(), 690, 50);
 
-        } else if (arrayVida.isEmpty()) {
+        } else if (arrayLife.isEmpty()) {
 
-            trilhaBatalha.parar_trilha(1);
-            threadTrilhaPerdeu.start();
 
-            ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/morreu.png"));
+            somPerdeu = new Reprodutor();
+
+            try {
+                if (contador == 0) {
+                    trilhaBatalha.parar_trilha(1);
+                    somPerdeu.abrirArquivo("Perdeu");
+                    somPerdeu.tocar();
+                }
+
+                contador = 1;
+
+            } catch (BasicPlayerException ex) {
+                Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/perdeu.jpg"));
             grafico.drawImage(creditos.getImage(), 0, 0, this);
+
+            spaceWar.setVisivel(false);
+            jogando = false;
 
         } else if (arrayInimigos.isEmpty()) {
 
-            trilhaBatalha.parar_trilha(1);
-            threadTrilhaGanhou.start();
+            somGanhou = new Reprodutor();
+
+            try {
+                if (contador == 0) {
+                    trilhaBatalha.parar_trilha(1);
+                    somGanhou.abrirArquivo("Ganhou");
+                    somGanhou.tocar();
+                }
+
+                contador = 1;
+
+            } catch (BasicPlayerException ex) {
+                Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             ImageIcon creditos2 = new ImageIcon(getClass().getResource("/Imagens/vencedor.png"));
             grafico.drawImage(creditos2.getImage(), 0, 0, this);
@@ -172,7 +202,7 @@ public class Cenario extends JPanel implements Runnable {
 
             if (pause == false) {
 
-                if (arrayInimigos.isEmpty() || arrayVida.isEmpty()) {
+                if (arrayInimigos.isEmpty() || arrayLife.isEmpty()) {
 
                     jogando = false;
 
@@ -206,11 +236,8 @@ public class Cenario extends JPanel implements Runnable {
                 for (int m = 0; m < arrayMoveCenario.size(); m++) {
 
                     MoverCenario cenarioMove = arrayMoveCenario.get(m);
-                    try {
-                        cenarioMove.moverCenario();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
+                    cenarioMove.moverCenario();
 
                 }
 
@@ -241,15 +268,19 @@ public class Cenario extends JPanel implements Runnable {
 
             if (formatoDaNave.intersects(formatoDoInimigo)) {
 
-                arrayVida.remove(0);
-                inimigoTemporario.setVisivel(false);
+                somExplosao = new Reprodutor();
 
-                if (arrayVida.isEmpty()) {
+                try {
 
-                    spaceWar.setVisivel(false);
+                    somExplosao.abrirArquivo("Explosao");
+                    somExplosao.tocar();
 
-                    jogando = false;
+                } catch (BasicPlayerException ex) {
+                    Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                arrayLife.remove(0);
+                inimigoTemporario.setVisivel(false);
 
             }
 
@@ -269,6 +300,16 @@ public class Cenario extends JPanel implements Runnable {
 
                 if (formatoDoTiro.intersects(formatoDoInimigo)) {
 
+                    somExplosao = new Reprodutor();
+
+                    try {
+
+                        somExplosao.abrirArquivo("Explosao");
+                        somExplosao.tocar();
+
+                    } catch (BasicPlayerException ex) {
+                        Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     inimigoTemporario.setVisivel(false);
                     tiroTemporario.setVisivel(false);
 
@@ -278,7 +319,7 @@ public class Cenario extends JPanel implements Runnable {
         }
     }
 
-    private class PegaEvento extends KeyAdapter {
+    private class PegaEvento implements KeyListener {
 
         @Override
         public void keyPressed(KeyEvent tecla) {
@@ -312,6 +353,12 @@ public class Cenario extends JPanel implements Runnable {
 
             spaceWar.keyReleased(tecla);
 
+        }
+
+        @Override
+        public void keyTyped(KeyEvent tecla) {
+
+            spaceWar.keyTyped(tecla);
         }
     }
 

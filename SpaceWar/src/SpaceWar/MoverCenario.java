@@ -9,21 +9,21 @@ public class MoverCenario {
     private int posicaoX;
     private int posicaoY;
     private boolean visivel;
-    private final int ALTURA_DA_TELA = -6300;
+    private final int ALTURA_DA_TELA = -7100;
     private final int VELOCIDADE_DA_TELA = 1;
 
     public MoverCenario(int posicaoX, int posicaoY) {
 
         ImageIcon retornaCenario;
 
-        retornaCenario = new ImageIcon(getClass().getResource("/Imagens/extrela.png"));
+        retornaCenario = new ImageIcon(getClass().getResource("/Imagens/mapaSalvador.jpg"));
         imagemCenario = retornaCenario.getImage();
 
         visivel();
 
     }
 
-    public void moverCenario() throws InterruptedException {
+    public void moverCenario() {
 
         if (this.posicaoY > 0) {
             this.posicaoY = ALTURA_DA_TELA;

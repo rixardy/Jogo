@@ -45,7 +45,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
         botaoNormal.setBorderPainted(false);//faz sumir as bordas do botão
         botaoNormal.setContentAreaFilled(false);//faz o fundo do botão ficar transparente
         botaoNormal.setFocusPainted(false);//faz com que o botão não tenha o foco inicial
-        botaoNormal.setBounds(30, 560, 80, 80);//define a posicao x e y,largura e altura
+        botaoNormal.setBounds(30, 560, 100, 100);//define a posicao x e y,largura e altura
         botaoNormal.setVisible(true);//deixa o botão visivel
         label.add(botaoNormal);//adiciona o botao ao label da tela de jogo
 

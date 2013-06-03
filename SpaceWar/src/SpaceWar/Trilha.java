@@ -45,7 +45,7 @@ public class Trilha implements Runnable {
         while (parar_trilha(stop)) {
             if (this.som.equals("Batalha")) {
 
-                in = getClass().getClassLoader().getResourceAsStream("Imagens/Batalha2.mp3");
+                in = getClass().getClassLoader().getResourceAsStream("Imagens/Batalha.mp3");
 
                 try {
 
