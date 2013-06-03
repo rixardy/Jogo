@@ -22,7 +22,7 @@ public class SpaceWar implements KeyListener {//classe da nave
     private Image imagemDaNave;//cria a imagem da nave
     private List<Tiro> tiros;//cria uma lista de tiros para adicionar a nave
     private boolean visivel;//define o estado do jogo
-    private boolean valida = true;
+    private boolean valida;
 
     public SpaceWar() {
 
