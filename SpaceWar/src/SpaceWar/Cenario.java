@@ -1,7 +1,5 @@
 package SpaceWar;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -14,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 
@@ -31,10 +30,13 @@ public class Cenario extends JPanel implements Runnable {
     private Reprodutor somExplosao;
     private Reprodutor somPerdeu;
     private Reprodutor somGanhou;
+    private Reprodutor somDoTiro;
+    private int movimentoInimigo;
     private int contador = 0;
+    private boolean valida;
     private int[][] coordenadasInimigos = new int[200][9];
     private int[][] coordenadasCenario = new int[1][2];
-    private int[][] coordenadasLife = {{690, 10}, {710, 10}, {730, 10}, {750, 10}, {770, 10}};
+    private int[][] coordenadasLife = {{650, 10}, {670, 10}, {690, 10}, {710, 10}, {730, 10}, {750, 10}, {770, 10}};
 
     public Cenario() {
 
@@ -134,12 +136,7 @@ public class Cenario extends JPanel implements Runnable {
 
             }
 
-            grafico.setColor(Color.white);
-            grafico.setFont(new Font("Arial", Font.BOLD, 15));
-            grafico.drawString("INIMIGOS: " + arrayInimigos.size(), 690, 50);
-
         } else if (arrayLife.isEmpty()) {
-
 
             somPerdeu = new Reprodutor();
 
@@ -159,8 +156,8 @@ public class Cenario extends JPanel implements Runnable {
             ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/perdeu.jpg"));
             grafico.drawImage(creditos.getImage(), 0, 0, this);
 
-            spaceWar.setVisivel(false);
-            jogando = false;
+            pause = false;
+            valida = false;
 
         } else if (arrayInimigos.isEmpty()) {
 
@@ -179,8 +176,11 @@ public class Cenario extends JPanel implements Runnable {
                 Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            ImageIcon creditos2 = new ImageIcon(getClass().getResource("/Imagens/vencedor.png"));
-            grafico.drawImage(creditos2.getImage(), 0, 0, this);
+            ImageIcon creditos2 = new ImageIcon(getClass().getResource("/Imagens/ganhou.jpg"));
+            grafico.drawImage(creditos2.getImage(), 0, -30, this);
+
+            pause = false;
+            valida = false;
 
         }
         if (pause == true) {
@@ -226,8 +226,23 @@ public class Cenario extends JPanel implements Runnable {
                     NaveInimiga naveIn = arrayInimigos.get(i);
 
                     if (naveIn.isVisivel()) {
-                        naveIn.moverInimigo();
+
+                        Random xRn = new Random();
+                        Random zRn = new Random();
+
+                        int z = zRn.nextInt(100);
+
+                        if (movimentoInimigo != 0) {
+                            movimentoInimigo = xRn.nextInt(50) + 1;
+                            if (z == 1) {
+                                naveIn.moverInimigo(movimentoInimigo);
+                            } else if (z == 2) {
+                                naveIn.moverInimigo(-movimentoInimigo);
+                            }
+                        }
+                        naveIn.moverInimigo(0);
                         naveIn.setVelocidadeInimigo(velocidadeDoInimigo);
+
                     } else {
                         arrayInimigos.remove(i);
                     }
@@ -324,8 +339,6 @@ public class Cenario extends JPanel implements Runnable {
         @Override
         public void keyPressed(KeyEvent tecla) {
 
-            spaceWar.keyPressed(tecla);
-
             int key = tecla.getKeyCode();
 
             if (key == KeyEvent.VK_P) {
@@ -337,15 +350,21 @@ public class Cenario extends JPanel implements Runnable {
                 }
 
             }
-            if (key == KeyEvent.VK_R) {
 
-                new Cenario();
+            if (key == KeyEvent.VK_ESCAPE) {
 
-                insereInimigos();
-                insereLife();
+                pause = true;
 
+                int opcao = JOptionPane.showConfirmDialog(null, "Deseja Realmente Sair?", null, JOptionPane.YES_NO_OPTION, JOptionPane.YES_OPTION, new ImageIcon(getClass().getResource("/Imagens/s.png")));
+
+                if (opcao == JOptionPane.OK_OPTION) {
+                    System.exit(0);
+
+                } else {
+                    pause = false;
+                }
             }
-
+            spaceWar.keyPressed(tecla);
         }
 
         @Override
@@ -353,16 +372,41 @@ public class Cenario extends JPanel implements Runnable {
 
             spaceWar.keyReleased(tecla);
 
+            valida = true;
+
         }
 
         @Override
-        public void keyTyped(KeyEvent tecla) {
+        public void keyTyped(KeyEvent teclado) {
 
-            spaceWar.keyTyped(tecla);
+            char tecla = teclado.getKeyChar();
+
+            if (tecla == 32 && valida) {
+
+                somDoTiro = new Reprodutor();
+
+                try {
+                    somDoTiro.abrirArquivoTiro();
+                    somDoTiro.tocar();
+
+                } catch (BasicPlayerException ex) {
+                    Logger.getLogger(SpaceWar.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            
+            spaceWar.keyTyped(teclado);
+
+            valida = false;
         }
+        
     }
-
+    
     public void setVelocidadeDoInimigo(int velocidadeDoInimigo) {
         this.velocidadeDoInimigo = velocidadeDoInimigo;
+    }
+
+    public void setMovimentoInimigo(int movimentoInimigo) {
+        this.movimentoInimigo = movimentoInimigo;
     }
 }

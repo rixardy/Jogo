@@ -6,10 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 public class SpaceWar implements KeyListener {//classe da nave
 
@@ -63,8 +60,8 @@ public class SpaceWar implements KeyListener {//classe da nave
         if (this.posicaoY < 0) {
             posicaoY = 0;
         }
-        if (this.posicaoY > 620) {
-            posicaoY = 620;
+        if (this.posicaoY > 650) {
+            posicaoY = 650;
         }
 
     }
@@ -77,6 +74,7 @@ public class SpaceWar implements KeyListener {//classe da nave
         if (tecla == KeyEvent.VK_UP) {//se apertar pra seta pra cima ela sobe 2 pixels
 
             moveY = -2;
+            
         } else if (tecla == KeyEvent.VK_DOWN) {//se apertar pra seta pra baixo ela desce 2 pixels
 
             moveY = 2;
@@ -129,18 +127,8 @@ public class SpaceWar implements KeyListener {//classe da nave
 
             atirar();
 
-            Reprodutor reproduz = new Reprodutor();
-
-            try {
-                reproduz.abrirArquivoTiro();
-                reproduz.tocar();
-
-            } catch (BasicPlayerException ex) {
-                Logger.getLogger(SpaceWar.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            valida = false;
         }
+        valida = false;
     }
 
     public int getPosicaoX() {

@@ -20,17 +20,17 @@ public class Reprodutor {
 
         player.open(getLocal("/Imagens/tiro.mp3"));
     }
-    
+
     public void abrirArquivoGanhou() throws BasicPlayerException {
 
         player.open(getLocal("/Imagens/ganhou.mp3"));
     }
-    
+
     public void abrirArquivoPerdeu() throws BasicPlayerException {
 
         player.open(getLocal("/Imagens/perdeu.mp3"));
     }
-    
+
     public void abrirArquivoExplosao() throws BasicPlayerException {
 
         player.open(getLocal("/Imagens/explosao.mp3"));

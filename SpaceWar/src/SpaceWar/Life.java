@@ -12,7 +12,7 @@ public class Life {
     private int posicaoY;
     private int largura;
     private int altura;
-    private boolean visivel = true;
+    private boolean visivel;
     private int velociidadeLife = 1;
 
     public Life(int posicaoX, int posicaoY) {
@@ -31,13 +31,13 @@ public class Life {
         visivel();
 
     }
-    
+
     public void moverLife() {
 
         Random randomX = new Random();
 
         if (this.posicaoY < 0) {
-            
+
             this.posicaoX = randomX.nextInt(10) * 55;
         } else {
             this.posicaoY += velociidadeLife;
@@ -63,7 +63,7 @@ public class Life {
     public void setVisivel(boolean visivel) {
         this.visivel = visivel;
     }
-    
+
     public Rectangle getBounds() {
         return new Rectangle(posicaoX, posicaoY, largura, altura);
     }

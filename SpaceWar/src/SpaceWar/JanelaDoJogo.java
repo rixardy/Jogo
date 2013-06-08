@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
@@ -18,19 +19,23 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
     private static Thread threadTrilhaIntroducao = new Thread(trilhaIntruducao);//cria um objeto thread e passa como parametro a trilha que sera utilizada
     private Thread threadCenario;
     private Image imagemSeta;//cria a imagem para colocar no cursor do mouse
+    private Image icone;
     private Cursor setaMouse;//cria um objeto cursor para alterar suas propriedades
     private Cenario cenarioNormal;
     private Cenario cenarioDificil;
 
     public JanelaDoJogo() {//construtor
 
-        //setUndecorated(true);
+        ImageIcon ima = new ImageIcon(getClass().getResource("/Imagens/s.png"));
+        icone = ima.getImage();
+        this.setIconImage(icone);
+        this.setUndecorated(true);
         this.setTitle("Space War");//titulo da janela
         this.setSize(600, 700);//tamanho da janela
         this.setLocationRelativeTo(null);//faz que a janela apareça no centro
         this.setResizable(false);//desativa a função de maximizar
 
-        ImageIcon imageI = new ImageIcon(getClass().getResource("/Imagens/14bis.png"));//insere uma imagem
+        ImageIcon imageI = new ImageIcon(getClass().getResource("/Imagens/inicio.jpg"));//insere uma imagem
         final JLabel label = new JLabel(imageI);//passa a imagem dentro do label para poder aparecer
         label.setBounds(0, 0, 600, 700);//posicao x e y,largura e altura
 
@@ -45,7 +50,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
         botaoNormal.setBorderPainted(false);//faz sumir as bordas do botão
         botaoNormal.setContentAreaFilled(false);//faz o fundo do botão ficar transparente
         botaoNormal.setFocusPainted(false);//faz com que o botão não tenha o foco inicial
-        botaoNormal.setBounds(30, 560, 100, 100);//define a posicao x e y,largura e altura
+        botaoNormal.setBounds(30, 560, 80, 80);//define a posicao x e y,largura e altura
         botaoNormal.setVisible(true);//deixa o botão visivel
         label.add(botaoNormal);//adiciona o botao ao label da tela de jogo
 
@@ -60,6 +65,17 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
         botaoDificil.setVisible(true);
         label.add(botaoDificil);
 
+        ImageIcon sair = new ImageIcon(getClass().getResource("/Imagens/sair.png"));
+        JButton botaoSair = new JButton("", sair);
+        botaoSair.setRolloverIcon(sair);
+        botaoSair.setPressedIcon(sair);
+        botaoSair.setBorderPainted(false);
+        botaoSair.setContentAreaFilled(false);
+        botaoSair.setFocusPainted(false);
+        botaoSair.setBounds(530, 0, 80, 80);
+        botaoSair.setVisible(true);
+        label.add(botaoSair);
+
         painel.setVisible(true);//deixa o painel visivel
         this.setVisible(true);//deixa o frame visivel
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//faz com que a aplicação pare de rodar ao fechar a janela
@@ -70,6 +86,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
 
                 cenarioNormal = new Cenario();
                 cenarioNormal.setVelocidadeDoInimigo(3);
+                cenarioNormal.setMovimentoInimigo(0);
                 threadCenario = new Thread((Runnable) add(cenarioNormal));
                 threadCenario.start();
 
@@ -91,6 +108,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
 
                 cenarioDificil = new Cenario();
                 cenarioDificil.setVelocidadeDoInimigo(4);
+                cenarioDificil.setMovimentoInimigo(1);
                 threadCenario = new Thread((Runnable) add(cenarioDificil));
                 threadCenario.start();
 
@@ -103,6 +121,19 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
                 trilhaIntruducao.parar_trilha(1);
 
                 painel.setVisible(false);
+            }
+        });
+
+        botaoSair.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int opcao = JOptionPane.showConfirmDialog(null, "Deseja Realmente Sair?", null, JOptionPane.YES_NO_OPTION, JOptionPane.YES_OPTION, new ImageIcon(getClass().getResource("/Imagens/s.png")));
+
+                if (opcao == JOptionPane.OK_OPTION) {
+                    System.exit(0);
+
+                }
             }
         });
 
