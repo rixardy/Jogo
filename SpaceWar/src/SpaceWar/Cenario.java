@@ -40,33 +40,33 @@ public class Cenario extends JPanel implements Runnable {
 
     public Cenario() {
 
-        setFocusable(true);
-        setDoubleBuffered(true);
+        setFocusable(true);//foca o cenario
+        setDoubleBuffered(true);//pré carrega as imagens
 
-        jogando = true;
+        jogando = true;//ativa o jogo
 
         insereCenario();
         insereInimigos();
         insereLife();
 
-        threadTrilhaBatalha.start();
+        threadTrilhaBatalha.start();//inicia a musica de fundo do cenario
 
     }
 
-    private void insereInimigos() {
+    private void insereInimigos() {//metodo para inserir os inimigos
 
-        Random randomX = new Random();
+        Random randomX = new Random();//gera numeros aleatorios
 
         arrayInimigos = new ArrayList<>();
 
         for (int i = 0; i < coordenadasInimigos.length; i++) {
-            int posicaoX = randomX.nextInt(10) * 60;
+            int posicaoX = randomX.nextInt(10) * 60;//passa os numeros aleatorios para a posição X da nave inimiga
             arrayInimigos.add(new NaveInimiga(posicaoX, i * -100));
         }
 
     }
 
-    private void insereCenario() {
+    private void insereCenario() {//metodo para inserir cenario
 
         arrayMoveCenario = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class Cenario extends JPanel implements Runnable {
         }
     }
 
-    private void insereLife() {
+    private void insereLife() {//metodo para inserir vida
 
         arrayLife = new ArrayList<>();
 
@@ -86,16 +86,16 @@ public class Cenario extends JPanel implements Runnable {
     }
 
     @Override
-    public void paint(Graphics pinta) {
+    public void paint(Graphics pinta) {//metodo para pintar os objetos
 
-        Graphics2D grafico = (Graphics2D) pinta;
+        Graphics2D grafico = (Graphics2D) pinta;//passa por referência o objeto pinta para graphics2D
 
         ImageIcon fundoLateral = new ImageIcon(getClass().getResource("/Imagens/telapreta.png"));
-        grafico.drawImage(fundoLateral.getImage(), 600, 0, this);
+        grafico.drawImage(fundoLateral.getImage(), 600, 0, this);//pinta a imagem na lateral(onde estão as instruções do jogo)
 
-        if (jogando) {
+        if (jogando) {//se estiver jogando
 
-            for (int l = 0; l < arrayMoveCenario.size(); l++) {
+            for (int l = 0; l < arrayMoveCenario.size(); l++) {//pinta a imagem de fundo do cenario
 
                 MoverCenario moveC = arrayMoveCenario.get(l);
 
@@ -105,22 +105,22 @@ public class Cenario extends JPanel implements Runnable {
 
             grafico.drawImage(spaceWar.getImagem(), spaceWar.getPosicaoX(), spaceWar.getPosicaoY(), this);
 
-            List<Tiro> tiros = spaceWar.getTiros();
+            List<Tiro> tiros = spaceWar.getTiros();//coloca os tiros na mesma posição que a nave
 
-            for (int i = 0; i < tiros.size(); i++) {
+            for (int i = 0; i < tiros.size(); i++) {//pinta os tiros
 
                 Tiro tiro = (Tiro) tiros.get(i);
                 grafico.drawImage(tiro.getImagem(), tiro.getPosicaoX(), tiro.getPosicaoY(), this);
 
             }
 
-            for (int i = 0; i < arrayInimigos.size(); i++) {
+            for (int i = 0; i < arrayInimigos.size(); i++) {//pinta os inimigos
 
                 NaveInimiga inimi = arrayInimigos.get(i);
 
                 grafico.drawImage(inimi.getImagemNaveInimiga(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
 
-                if (inimi.isVisivel() == false) {
+                if (inimi.isVisivel() == false) {//se inimigo for atingido pinta a explosão
 
                     grafico.drawImage(inimi.getImagemExplosao(), inimi.getPosicaoX(), inimi.getPosicaoY(), this);
 
@@ -128,7 +128,7 @@ public class Cenario extends JPanel implements Runnable {
 
             }
 
-            for (int m = 0; m < arrayLife.size(); m++) {
+            for (int m = 0; m < arrayLife.size(); m++) {//pinta vida
 
                 Life vidaL = arrayLife.get(m);
 
@@ -136,11 +136,11 @@ public class Cenario extends JPanel implements Runnable {
 
             }
 
-        } else if (arrayLife.isEmpty()) {
+        } else if (arrayLife.isEmpty()) {//se perder todas as vidas
 
             somPerdeu = new Reprodutor();
 
-            try {
+            try {//reproduz o som de perdeu
                 if (contador == 0) {
                     trilhaBatalha.parar_trilha(1);
                     somPerdeu.abrirArquivoPerdeu();
@@ -154,16 +154,16 @@ public class Cenario extends JPanel implements Runnable {
             }
 
             ImageIcon creditos = new ImageIcon(getClass().getResource("/Imagens/perdeu.jpg"));
-            grafico.drawImage(creditos.getImage(), 0, 0, this);
+            grafico.drawImage(creditos.getImage(), 0, 0, this);//pinta a imagem de game over
 
             pause = false;
             valida = false;
 
-        } else if (arrayInimigos.isEmpty()) {
+        } else if (arrayInimigos.isEmpty()) {//se derrotar todos os inimigos
 
             somGanhou = new Reprodutor();
 
-            try {
+            try {//reproduz o som de ganhou
                 if (contador == 0) {
                     trilhaBatalha.parar_trilha(1);
                     somGanhou.abrirArquivoGanhou();
@@ -183,26 +183,26 @@ public class Cenario extends JPanel implements Runnable {
             valida = false;
 
         }
-        if (pause == true) {
+        if (pause == true) {//se pause for ativado,congela a tela e todos os objetos
 
             ImageIcon imPause = new ImageIcon(getClass().getResource("/Imagens/pause.png"));
-            grafico.drawImage(imPause.getImage(), 0, 0, null);
+            grafico.drawImage(imPause.getImage(), 0, 0, null);//pinta a imagem de pause
         }
-        pinta.dispose();
+        pinta.dispose();//destroi a imagem anterior
 
     }
 
     @Override
-    public void run() {
+    public void run() {//loop do jogo
 
         spaceWar = new SpaceWar();
         addKeyListener(new PegaEvento());
 
-        while (jogando) {
+        while (jogando) {//emquanto estiver jogando,atualiza os dados,pinta e destroi.
 
-            if (pause == false) {
+            if (pause == false) {//se o pause estiver desativado os elementos descongelam
 
-                if (arrayInimigos.isEmpty() || arrayLife.isEmpty()) {
+                if (arrayInimigos.isEmpty() || arrayLife.isEmpty()) {//se não tiver vidas ou os inimigos forem derrotados o jogo termina
 
                     jogando = false;
 
@@ -214,7 +214,7 @@ public class Cenario extends JPanel implements Runnable {
 
                     Tiro tiro = (Tiro) tiros.get(i);
 
-                    if (tiro.isVisivel()) {
+                    if (tiro.isVisivel()) {//se o tiro esta visivel move o tiro,se não remove
                         tiro.moverTiro();
                     } else {
                         tiros.remove(i);
@@ -225,14 +225,14 @@ public class Cenario extends JPanel implements Runnable {
 
                     NaveInimiga naveIn = arrayInimigos.get(i);
 
-                    if (naveIn.isVisivel()) {
+                    if (naveIn.isVisivel()) {//se nave inimiga estiver visivel ela aparece nessas posições,se não desaparece
 
                         Random xRn = new Random();
                         Random zRn = new Random();
 
                         int z = zRn.nextInt(100);
 
-                        if (movimentoInimigo != 0) {
+                        if (movimentoInimigo != 0) {//determina o movimento aleatorio
                             movimentoInimigo = xRn.nextInt(50) + 1;
                             if (z == 1) {
                                 naveIn.moverInimigo(movimentoInimigo);
@@ -248,7 +248,7 @@ public class Cenario extends JPanel implements Runnable {
                     }
                 }
 
-                for (int m = 0; m < arrayMoveCenario.size(); m++) {
+                for (int m = 0; m < arrayMoveCenario.size(); m++) {//move cenario
 
                     MoverCenario cenarioMove = arrayMoveCenario.get(m);
 
@@ -256,12 +256,12 @@ public class Cenario extends JPanel implements Runnable {
 
                 }
 
-                spaceWar.moverSpaceWar();
-                capturarColisoes();
-                repaint();
+                spaceWar.moverSpaceWar();//move nave amiga
+                capturarColisoes();//checa colisões
+                repaint();//repinta as imagens
             }
 
-            try {
+            try {//faz com que os elementos ganhe movimentos
                 Thread.sleep(5);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Cenario.class.getName()).log(Level.SEVERE, null, ex);
@@ -270,9 +270,9 @@ public class Cenario extends JPanel implements Runnable {
 
     }
 
-    public void capturarColisoes() {
+    public void capturarColisoes() {//trata as colisões
 
-        Rectangle formatoDaNave = spaceWar.getBounds();
+        Rectangle formatoDaNave = spaceWar.getBounds();//pega o retangulo das imagens
         Rectangle formatoDoInimigo;
         Rectangle formatoDoTiro;
 
@@ -281,7 +281,7 @@ public class Cenario extends JPanel implements Runnable {
             NaveInimiga inimigoTemporario = arrayInimigos.get(i);
             formatoDoInimigo = inimigoTemporario.getBounds();
 
-            if (formatoDaNave.intersects(formatoDoInimigo)) {
+            if (formatoDaNave.intersects(formatoDoInimigo)) {//se nave amiga atinge nave inimiga toca o som da explosão,inimigo some e remove uma vida
 
                 somExplosao = new Reprodutor();
 
@@ -313,7 +313,7 @@ public class Cenario extends JPanel implements Runnable {
                 NaveInimiga inimigoTemporario = arrayInimigos.get(j);
                 formatoDoInimigo = inimigoTemporario.getBounds();
 
-                if (formatoDoTiro.intersects(formatoDoInimigo)) {
+                if (formatoDoTiro.intersects(formatoDoInimigo)) {//se tiro atinge nave inimiga toca o som da explosão e inimigo some
 
                     somExplosao = new Reprodutor();
 
@@ -334,14 +334,14 @@ public class Cenario extends JPanel implements Runnable {
         }
     }
 
-    private class PegaEvento implements KeyListener {
+    private class PegaEvento implements KeyListener {//pega os eventos de teclado e passa no construtos de cenario
 
         @Override
         public void keyPressed(KeyEvent tecla) {
 
             int key = tecla.getKeyCode();
 
-            if (key == KeyEvent.VK_P) {
+            if (key == KeyEvent.VK_P) {//se apertar p o jogo pausa
 
                 if (pause == false) {
                     pause = true;
@@ -351,7 +351,7 @@ public class Cenario extends JPanel implements Runnable {
 
             }
 
-            if (key == KeyEvent.VK_ESCAPE) {
+            if (key == KeyEvent.VK_ESCAPE) {//se apertar esc aparece a mensagem de sair
 
                 pause = true;
 
@@ -402,11 +402,11 @@ public class Cenario extends JPanel implements Runnable {
         
     }
     
-    public void setVelocidadeDoInimigo(int velocidadeDoInimigo) {
+    public void setVelocidadeDoInimigo(int velocidadeDoInimigo) {//seta a velocidade do inimigo
         this.velocidadeDoInimigo = velocidadeDoInimigo;
     }
 
-    public void setMovimentoInimigo(int movimentoInimigo) {
+    public void setMovimentoInimigo(int movimentoInimigo) {//seta o movimento aleatorio ou não
         this.movimentoInimigo = movimentoInimigo;
     }
 }

@@ -104,7 +104,7 @@ public class NaveInimiga {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(posicaoX, posicaoY, largura, altura);
+        return new Rectangle(posicaoX, posicaoY, largura/2, altura);
     }
 
     public void setVelocidadeInimigo(int velocidadeInimigo) {

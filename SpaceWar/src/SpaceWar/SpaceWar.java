@@ -42,7 +42,7 @@ public class SpaceWar implements KeyListener {//classe da nave
     }
 
     public Rectangle getBounds() {//metodo para retornar posicoes,largura e altura da imagem da nave
-        return new Rectangle(posicaoX, posicaoY, largura, altura);
+        return new Rectangle(posicaoX, posicaoY, largura/2, altura);
 
     }
 

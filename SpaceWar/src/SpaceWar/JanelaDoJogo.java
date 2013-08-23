@@ -31,7 +31,7 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
         this.setIconImage(icone);
         this.setUndecorated(true);
         this.setTitle("Space War");//titulo da janela
-        this.setSize(600, 700);//tamanho da janela
+        this.setSize(600,700);//tamanho da janela
         this.setLocationRelativeTo(null);//faz que a janela apareça no centro
         this.setResizable(false);//desativa a função de maximizar
 
@@ -145,5 +145,5 @@ public class JanelaDoJogo extends JFrame {//classe quer herda de JFrame
 
         threadTrilhaIntroducao.start();//toca a musica de introducao
 
+        }
     }
-}
